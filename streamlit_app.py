@@ -2,6 +2,7 @@ import altair as alt
 import pandas as pd
 import streamlit as st
 from process import *
+from vega_datasets import data
 
 @st.cache_data
 def collect_state_data():
