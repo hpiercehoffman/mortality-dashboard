@@ -4,7 +4,7 @@ import streamlit as st
 from process import read_states
 from vega_datasets import data
 
-@st.cache_data
+# @st.cache_data
 def collect_state_data():
     state_df = read_states()
     return state_df
