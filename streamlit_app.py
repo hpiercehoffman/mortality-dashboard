@@ -4,6 +4,9 @@ import streamlit as st
 from process import read_states
 from vega_datasets import data
 
+# Global vars
+PROJECTION_TYPE = "albersUsa"
+
 @st.cache_data
 def collect_state_data():
     state_df = read_states()
@@ -26,7 +29,7 @@ us_map = alt.Chart(counties).mark_geoshape(
 ).properties(
     width = 800,
     height = 500
-).project('equirectangular')
+).project(PROJECTION_TYPE)
 
 
 us_mort = alt.Chart(counties).mark_geoshape().encode(
@@ -35,7 +38,7 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
     lookup='id',
     from_=alt.LookupData(data=source, key='id', fields=['mx'])
 ).project(
-    type='albersUsa'
+    PROJECTION_TYPE
 ).properties(
     width=800,
     height=500
