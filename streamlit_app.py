@@ -47,7 +47,7 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
     height=500
 )
 
-chart_mort = alt.vconcat(us_mort + us_map).resolve_scale(
+chart_mort = alt.vconcat(us_mort).resolve_scale(
         color = 'independent'
     )
 
