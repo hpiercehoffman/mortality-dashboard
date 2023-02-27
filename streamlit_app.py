@@ -13,6 +13,8 @@ def collect_state_data():
     return state_df
 
 state_df = collect_state_data()
+state_df = state_df.dropna(subset=['FIPS'])
+state_df["id"] = state_df["FIPS"].astype(int)
 
 st.write("Mortality rates by county")
 
