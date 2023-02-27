@@ -3,7 +3,7 @@ import pandas as pd
 import altair as alt
 import streamlit
 import vega_datasets
-from glob import glob
+import os
 
 def read_csv(fl):
     to_remove = ['index', 'measure_id','measure_name', 'age_id', 'metric','measure_ID']
@@ -13,7 +13,7 @@ def read_csv(fl):
     return df
 
 def read_states():
-    fls = glob('data/states/*')
+    fls = os.listdir('data/states/*')
     data_list = []
     for fl in fls:
         data_list.append(read_csv(fl))
