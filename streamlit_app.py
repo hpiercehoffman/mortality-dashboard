@@ -33,7 +33,7 @@ us_map = alt.Chart(counties).mark_geoshape(
 
 
 us_mort = alt.Chart(counties).mark_geoshape().encode(
-    color='mx:Q'
+    color=alt.Color('mx:Q')
 ).transform_lookup(
     lookup='id',
     from_=alt.LookupData(data=source, key='id', fields=['mx'])
