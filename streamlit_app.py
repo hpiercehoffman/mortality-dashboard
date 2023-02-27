@@ -50,6 +50,4 @@ chart_mort = alt.vconcat(us_map + us_mort).resolve_scale(
     )
 
 st.altair_chart(chart_mort,
-    use_container_width=False
-).resolve_scale(
-    color = 'independent')
+    use_container_width=False)
