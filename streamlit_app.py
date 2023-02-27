@@ -20,10 +20,6 @@ alc_df = alc_df[alc_df['year_id'] == 1990]
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 source = alc_df
 
-width = 400
-height  = 200
-project = 'equirectangular'
-
 us_map = alt.Chart(counties).mark_geoshape(
     fill = '#aaa',
     stroke = 'white'
