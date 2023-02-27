@@ -13,7 +13,7 @@ def collect_state_data():
     return state_df
 
 state_df = collect_state_data()
-print(state_df)
+st.write(state_df.head(5))
 
 st.write("Mortality rates by county")
 
