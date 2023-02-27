@@ -13,10 +13,12 @@ def read_csv(fl):
     return df
 
 def read_states():
-    fls = os.listdir('data/states/*')
+    main_dir = 'data/states'
+    fls = os.listdir(main_dir)
     data_list = []
     for fl in fls:
-        data_list.append(read_csv(fl))
+        if os.path.splitext(os.path.join(main_dir,fl))[1].lower() == '.csv':
+            data_list.append(read_csv(os.path.join(main_dir,fl)))
     df_mort = pd.concat(data_list)
     df_mort = df_mort.reset_index(drop=True)
     return df_mort
