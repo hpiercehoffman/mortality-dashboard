@@ -1,6 +1,6 @@
-streamlit
-altair
-pandas
-glob
 numpy
+pandas
+altair
+streamlit
 vega_datasets
+glob
