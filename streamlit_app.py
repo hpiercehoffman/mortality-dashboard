@@ -21,7 +21,6 @@ st.write("Mortality rates by county")
 alc_df = state_df[state_df.cause_name == 'Alcohol use disorders']
 alc_df = alc_df[alc_df.sex == 'Both']
 alc_df = alc_df[alc_df['year_id'] == 1990]
-st.write(alc_df.head(5))
 
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 source = alc_df
