@@ -24,8 +24,7 @@ width = 400
 height  = 200
 project = 'equirectangular'
 
-map_background = alt.Chart(source
-).mark_geoshape(
+us_map = alt.Chart(counties).mark_geoshape(
     fill = '#aaa',
     stroke = 'white'
 ).properties(
@@ -46,9 +45,7 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
     height=500
 )
 
-chart_mort = alt.vconcat(map_background + us_mort
-    ).resolve_scale(
-        color = 'independent'
-    )
+chart_mort = alt.vconcat(us_map + us_mort).resolve_scale(
+        color = 'independent')
 
 st.altair_chart(chart_mort, use_container_width=False)
