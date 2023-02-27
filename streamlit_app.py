@@ -4,7 +4,7 @@ import streamlit as st
 from process import read_states
 from vega_datasets import data
 
-# @st.cache_data
+@st.cache_data
 def collect_state_data():
     state_df = read_states()
     return state_df
@@ -32,4 +32,4 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
     height=500
 )
 
-st.altair_chart(us_mort)
+st.altair_chart(us_mort, use_container_width=False)
