@@ -76,8 +76,8 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
 ).project(
     "albersUsa"
 ).properties(
-    width=500,
-    height=300
+    width=800,
+    height=600
 )
 
 subset_df_state = subset_df[subset_df.State == display_state]
@@ -95,8 +95,8 @@ map_state =alt.Chart(data = counties).mark_geoshape(
         lookup='id', 
         from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx'])
     ).project("albersUsa").properties(
-        width=800,
-        height=600
+        width=500,
+        height=300
     )
 
 chart_mort = alt.vconcat(us_mort, map_state).resolve_scale(
