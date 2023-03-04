@@ -17,10 +17,9 @@ def collect_state_data():
     return state_df
 
 state_df = collect_state_data()
-state_df['FIPS'] = state_df['FIPS'].astype('str')
-msk = state_df['FIPS'].str.len() <= 2
+state_df["str_id"] = state_df["id"].astype(str)
+msk = state_df['str_id'].str.len() <= 2
 only_state_df = state_df.loc[msk] 
-st.write(only_state_df)
 state_to_id = {v:i for (v,i) in zip(only_state_df.State, only_state_df.id) }
 
 # Sidebar for data filtering widgets
@@ -54,6 +53,7 @@ with st.sidebar:
         options=state_df["State"].unique(),
         default="Massachusetts"
     )
+    display_state_id = state_to_id[display_state]
 
 # Main chart title
 st.write("Mortality rates by county")
@@ -81,21 +81,22 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
     height=500
 )
 
+subset_df_state = subset_df[subset_df.State == display_state]
 
-map_state =(
-    alt.Chart(data = counties)
-    .mark_geoshape(
+map_state =alt.Chart(data = counties).mark_geoshape(
         stroke='black',
         strokeWidth=1
     )
     .transform_calculate(state_id = "(datum.id / 1000)|0")
-    .transform_filter((alt.datum.state_id)==13)
-)
+    .transform_filter((alt.datum.state_id)==display_state_id)
+    .encode(color=alt.Color('mx:Q', title="Deaths per 100,000"))
+    .transform_lookup(lookup='id', from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx']))
+    .project("albersUsa").
+    properties(
+    width=800,
+    height=500)
 
-
-
-
-chart_mort = alt.vconcat(us_mort).resolve_scale(
+chart_mort = alt.vconcat(us_mort, map_state).resolve_scale(
         color = 'independent')
 
 st.altair_chart(chart_mort,
