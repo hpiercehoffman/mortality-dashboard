@@ -95,7 +95,7 @@ map_state =alt.Chart(data = counties).mark_geoshape(
         lookup='id', 
         from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx'])
     ).project("albersUsa").properties(
-        width=1000,
+        width=800,
         height=600
     )
 
