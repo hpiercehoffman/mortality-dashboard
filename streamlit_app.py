@@ -20,22 +20,29 @@ state_df = collect_state_data()
 st.write("Mortality rates by county")
 
 # Multi-select widget for mortality causes
-mort_causes = st.multiselect(
+display_causes = st.multiselect(
     label="Select one or more mortality causes",
     options=state_df["cause_name"].unique(),
     default="Alcohol use disorders"
-    )
-subset_df = state_df[state_df.cause_name.isin(mort_causes)]
+)
+subset_df = state_df[state_df.cause_name.isin(display_causes)]
 
 # Radio buttons to select sex
-sex_group = st.radio(
+display_sex = st.radio(
     label="Select a sex to display",
     options=("Male", "Female", "Both"),
     index=0
 )
-subset_df = subset_df[subset_df.sex == sex_group]
+subset_df = subset_df[subset_df.sex == display_sex]
 
-subset_df = subset_df[subset_df.year_id == 1990]
+# Slider widget to select year
+display_year = st.slider(
+    label="Select a year",
+    min_value=1980,
+    max_value=2014,
+    value=1990
+)
+subset_df = subset_df[subset_df.year_id == display_year]
 
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 source = subset_df
