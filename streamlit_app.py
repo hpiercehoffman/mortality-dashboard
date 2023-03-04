@@ -16,7 +16,7 @@ def collect_state_data():
 
 state_df = collect_state_data()
 
-# Sidebar for filtering widgets
+# Sidebar for data filtering widgets
 with st.sidebar:
 
     # Multi-select widget for mortality causes
@@ -52,7 +52,8 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 source = subset_df
 
 us_mort = alt.Chart(counties).mark_geoshape().encode(
-    color=alt.Color('mx:Q')
+    color=alt.Color('mx:Q',
+                    title="Deaths per 100,000")
 ).transform_lookup(
     lookup='id',
     from_=alt.LookupData(data=source, key='id', fields=['mx'])
