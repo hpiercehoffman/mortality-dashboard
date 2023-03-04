@@ -6,6 +6,7 @@ from vega_datasets import data
 import process_data
 
 @st.cache_data
+
 # Cache state data from CSV files, dropping entries without a FIPS code
 def collect_state_data():
     state_df = process_data.read_states()
@@ -26,7 +27,14 @@ mort_causes = st.multiselect(
     )
 subset_df = state_df[state_df.cause_name.isin(mort_causes)]
 
-subset_df = subset_df[subset_df.sex == 'Both']
+# Radio buttons to select sex
+sex_group = st.radio(
+    label="Select a sex to display",
+    options=("Male", "Female", "Both"),
+    index=0
+)
+subset_df = subset_df[subset_df.sex == sex_group]
+
 subset_df = subset_df[subset_df.year_id == 1990]
 
 counties = alt.topo_feature(data.us_10m.url, 'counties')
