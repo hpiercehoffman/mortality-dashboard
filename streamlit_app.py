@@ -21,7 +21,10 @@ st.write("Mortality rates by county")
 # Multi-select widget for mortality causes
 mort_cause = st.multiselect(
     label="Select one or more mortality causes",
-    options=state_df.cause_name.unique(),
+    options=("Alcohol use disorders",
+             "Drug use disorders",
+             "Self-harm",
+             "Interpersonal violence")
     default="Alcohol use disorders"
 )
 subset_df = state_df[state_df.cause_name == mort_cause]
