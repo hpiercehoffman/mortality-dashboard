@@ -17,6 +17,7 @@ def collect_state_data():
     return state_df
 
 state_df = collect_state_data()
+state_df['FIPS'] = state_df['FIPS'].astype('str')
 msk = state_df['FIPS'].str.len() <= 2
 only_state_df = state_df.loc[msk] 
 st.write(only_state_df)
