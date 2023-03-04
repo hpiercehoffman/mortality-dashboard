@@ -5,7 +5,7 @@ from vega_datasets import data
 
 import process_data
 
-st.set_page_config(page_title="Plotting Demo", page_icon="📈")
+st.set_page_config(page_title="Country", page_icon="📈")
 
 @st.cache_data
 
@@ -65,6 +65,20 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
     width=800,
     height=500
 )
+
+
+map_state =(
+    alt.Chart(data = counties)
+    .mark_geoshape(
+        stroke='black',
+        strokeWidth=1
+    )
+    .transform_calculate(state_id = "(datum.id / 1000)|0")
+    .transform_filter((alt.datum.state_id)==13)
+)
+
+
+
 
 chart_mort = alt.vconcat(us_mort).resolve_scale(
         color = 'independent')
