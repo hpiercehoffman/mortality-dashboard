@@ -5,6 +5,8 @@ from vega_datasets import data
 
 import process_data
 
+st.set_page_config(page_title="Plotting Demo", page_icon="📈")
+
 @st.cache_data
 
 # Cache state data from CSV files, dropping entries without a FIPS code

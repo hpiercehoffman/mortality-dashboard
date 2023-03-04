@@ -13,7 +13,7 @@ def read_csv(fl):
     return df
 
 def read_states():
-    main_dir = 'data/states'
+    main_dir = '../data/states'
     fls = os.listdir(main_dir)
     data_list = []
     for fl in fls:
