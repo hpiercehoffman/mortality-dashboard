@@ -17,7 +17,8 @@ def collect_state_data():
     return state_df
 
 state_df = collect_state_data()
-only_state_df = state_df.loc[ len(state_df['FIPS']) <= 2] 
+msk = state_df['FIPS'].str.len() <= 2
+only_state_df = state_df.loc[msk] 
 st.write(only_state_df)
 state_to_id = {v:i for (v,i) in zip(only_state_df.State, only_state_df.id) }
 
