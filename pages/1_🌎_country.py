@@ -17,6 +17,9 @@ def collect_state_data():
     return state_df
 
 state_df = collect_state_data()
+only_state_df = state_df.loc[ len(state_df['FIPS']) <= 2] 
+st.write(only_state_df)
+state_to_id = {v,i for v,i in zip(only_state_df.State, only_state_df.id) }
 
 # Sidebar for data filtering widgets
 with st.sidebar:
@@ -41,6 +44,13 @@ with st.sidebar:
         min_value=1980,
         max_value=2014,
         value=1990
+    )
+    
+    # Select widget for mortality causes
+    display_state = st.select(
+        label="Select a state",
+        options=state_df["State"].unique(),
+        default="Massachusetts"
     )
 
 # Main chart title
