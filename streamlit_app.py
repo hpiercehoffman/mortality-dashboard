@@ -8,6 +8,8 @@ import process_data
 @st.cache_data
 def collect_state_data():
     state_df = process_data.read_states()
+    state_df = state_df.dropna(subset=['FIPS'])
+    state_df["id"] = state_df["FIPS"].astype(int)
     return state_df
 
 state_df = collect_state_data()
