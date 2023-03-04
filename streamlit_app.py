@@ -4,9 +4,6 @@ import streamlit as st
 import process_data
 from vega_datasets import data
 
-# Global vars
-PROJECTION_TYPE = "albersUsa"
-
 @st.cache_data
 def collect_state_data():
     state_df = process_data.read_states()
@@ -18,12 +15,21 @@ state_df["id"] = state_df["FIPS"].astype(int)
 
 st.write("Mortality rates by county")
 
-alc_df = state_df[state_df.cause_name == 'Alcohol use disorders']
-alc_df = alc_df[alc_df.sex == 'Both']
-alc_df = alc_df[alc_df['year_id'] == 1990]
+mort_cause = st.radio(
+    label="Mortality cause",
+    options=("Alcohol use disorders",
+             "Drug use disorders",
+             "Self-harm",
+             "Interpersonal violence"),
+    index=0
+)
+subset_df = state_df[state_df.cause_name == mort_cause]
+
+subset_df = subset_df[subset_df.sex == 'Both']
+subset_df = subset_df[subset_df.year_id == 1990]
 
 counties = alt.topo_feature(data.us_10m.url, 'counties')
-source = alc_df
+source = subset_df
 
 us_map = alt.Chart(counties).mark_geoshape(
     fill = '#aaa',
@@ -31,8 +37,7 @@ us_map = alt.Chart(counties).mark_geoshape(
 ).properties(
     width = 800,
     height = 500
-).project(PROJECTION_TYPE)
-
+).project("albersUsa")
 
 us_mort = alt.Chart(counties).mark_geoshape().encode(
     color=alt.Color('mx:Q')
@@ -40,15 +45,13 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
     lookup='id',
     from_=alt.LookupData(data=source, key='id', fields=['mx'])
 ).project(
-    PROJECTION_TYPE
+    "albersUsa"
 ).properties(
     width=800,
     height=500
 )
 
-chart_mort = alt.vconcat(us_mort).resolve_scale(
-        color = 'independent'
-    )
+chart_mort = alt.Chart(us_mort)
 
 st.altair_chart(chart_mort,
-    use_container_width=False)
+    use_container_width=True)
