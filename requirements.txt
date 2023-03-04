@@ -1,5 +1,5 @@
-streamlit
 numpy
 pandas
+streamlit
 altair
 vega_datasets
