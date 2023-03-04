@@ -87,14 +87,18 @@ map_state =alt.Chart(data = counties).mark_geoshape(
         stroke='black',
         strokeWidth=1
     ).transform_calculate(
-    state_id = "(datum.id / 1000)|0")
-    .transform_filter((alt.datum.state_id)==display_state_id)
-    .encode(color=alt.Color('mx:Q', title="Deaths per 100,000"))
-    .transform_lookup(lookup='id', from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx']))
-    .project("albersUsa").
-    properties(
-    width=800,
-    height=500)
+        state_id = "(datum.id / 1000)|0"
+    ).transform_filter(
+        (alt.datum.state_id)==display_state_id
+    ).encode(
+        color=alt.Color('mx:Q', title="Deaths per 100,000")
+    ).transform_lookup(
+        lookup='id', 
+        from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx'])
+    ).project("albersUsa").properties(
+        width=800,
+        height=500
+    )
 
 chart_mort = alt.vconcat(us_mort, map_state).resolve_scale(
         color = 'independent')
