@@ -51,7 +51,7 @@ with st.sidebar:
     display_state = st.selectbox(
         label="Select a state",
         options=state_df["State"].unique(),
-        default="Massachusetts"
+        index=0
     )
     display_state_id = state_to_id[display_state]
 
