@@ -1,2 +1,6 @@
 # bmi706-outliers
 Repository for BMI 706 Data Visualization team project
+
+# Sources
+* Streamlit radio buttons: https://docs.streamlit.io/library/api-reference/widgets/st.radio
+* Streamlit multiselect: https://docs.streamlit.io/library/api-reference/widgets/st.multiselect

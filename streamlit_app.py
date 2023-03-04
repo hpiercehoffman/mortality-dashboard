@@ -6,6 +6,7 @@ from vega_datasets import data
 import process_data
 
 @st.cache_data
+# Cache state data from CSV files, dropping entries without a FIPS code
 def collect_state_data():
     state_df = process_data.read_states()
     state_df = state_df.dropna(subset=['FIPS'])
@@ -14,15 +15,14 @@ def collect_state_data():
 
 state_df = collect_state_data()
 
+# Chart title
 st.write("Mortality rates by county")
 
-mort_cause = st.radio(
-    label="Mortality cause",
-    options=("Alcohol use disorders",
-             "Drug use disorders",
-             "Self-harm",
-             "Interpersonal violence"),
-    index=0
+# Multi-select widget for mortality causes
+mort_cause = st.multiselect(
+    label="Select one or more mortality causes",
+    options=state_df.cause_name.unique(),
+    default="Alcohol use disorders"
 )
 subset_df = state_df[state_df.cause_name == mort_cause]
 
