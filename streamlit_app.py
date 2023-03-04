@@ -24,7 +24,7 @@ mort_cause = st.multiselect(
     options=("Alcohol use disorders",
              "Drug use disorders",
              "Self-harm",
-             "Interpersonal violence")
+             "Interpersonal violence"),
     default="Alcohol use disorders"
 )
 subset_df = state_df[state_df.cause_name == mort_cause]
