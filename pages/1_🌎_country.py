@@ -66,7 +66,6 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 source = subset_df
 
 selector = alt.selection_single()
-st.write(subset_df)
 
 us_mort = alt.Chart(counties).mark_geoshape().encode(
     color=alt.Color('mx:Q',
@@ -96,8 +95,8 @@ map_state =alt.Chart(data = counties).mark_geoshape(
         lookup='id', 
         from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx'])
     ).project("albersUsa").properties(
-        width=800,
-        height=500
+        width=2000,
+        height=2000
     )
 
 chart_mort = alt.vconcat(us_mort, map_state).resolve_scale(
