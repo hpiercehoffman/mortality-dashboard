@@ -86,8 +86,8 @@ subset_df_state = subset_df[subset_df.State == display_state]
 map_state =alt.Chart(data = counties).mark_geoshape(
         stroke='black',
         strokeWidth=1
-    )
-    .transform_calculate(state_id = "(datum.id / 1000)|0")
+    ).transform_calculate(
+    state_id = "(datum.id / 1000)|0")
     .transform_filter((alt.datum.state_id)==display_state_id)
     .encode(color=alt.Color('mx:Q', title="Deaths per 100,000"))
     .transform_lookup(lookup='id', from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx']))
