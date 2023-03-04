@@ -53,6 +53,9 @@ subset_df = subset_df[subset_df.year_id == display_year]
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 source = subset_df
 
+selector = alt.selection_single()
+print(subset_df)
+
 us_mort = alt.Chart(counties).mark_geoshape().encode(
     color=alt.Color('mx:Q',
                     title="Deaths per 100,000")
