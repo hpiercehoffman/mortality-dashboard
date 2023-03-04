@@ -19,7 +19,7 @@ def collect_state_data():
 state_df = collect_state_data()
 only_state_df = state_df.loc[ len(state_df['FIPS']) <= 2] 
 st.write(only_state_df)
-state_to_id = {v,i for v,i in zip(only_state_df.State, only_state_df.id) }
+state_to_id = {v,i for (v,i) in zip(only_state_df.State, only_state_df.id) }
 
 # Sidebar for data filtering widgets
 with st.sidebar:
