@@ -76,8 +76,8 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
 ).project(
     "albersUsa"
 ).properties(
-    width=800,
-    height=500
+    width=500,
+    height=300
 )
 
 subset_df_state = subset_df[subset_df.State == display_state]
