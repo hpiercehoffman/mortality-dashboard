@@ -21,4 +21,6 @@ def read_states():
             data_list.append(read_csv(os.path.join(main_dir,fl)))
     df_mort = pd.concat(data_list)
     df_mort = df_mort.reset_index(drop=True)
+    df_mort = df_mort.dropna(subset=['FIPS'])
+    df_mort["id"] = df_mort["FIPS"].astype(int)
     return df_mort
