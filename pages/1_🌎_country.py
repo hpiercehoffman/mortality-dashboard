@@ -48,7 +48,7 @@ with st.sidebar:
     )
     
     # Select widget for mortality causes
-    display_state = st.select(
+    display_state = st.selectbox(
         label="Select a state",
         options=state_df["State"].unique(),
         default="Massachusetts"
