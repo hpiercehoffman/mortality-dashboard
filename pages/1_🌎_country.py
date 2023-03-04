@@ -54,7 +54,7 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 source = subset_df
 
 selector = alt.selection_single()
-print(subset_df)
+st.write(subset_df)
 
 us_mort = alt.Chart(counties).mark_geoshape().encode(
     color=alt.Color('mx:Q',
