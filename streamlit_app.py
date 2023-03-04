@@ -31,6 +31,7 @@ subset_df = subset_df[subset_df.year_id == 1990]
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 source = subset_df
 
+'''
 us_map = alt.Chart(counties).mark_geoshape(
     fill = '#aaa',
     stroke = 'white'
@@ -38,6 +39,7 @@ us_map = alt.Chart(counties).mark_geoshape(
     width = 800,
     height = 500
 ).project("albersUsa")
+'''
 
 us_mort = alt.Chart(counties).mark_geoshape().encode(
     color=alt.Color('mx:Q')
@@ -51,7 +53,9 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
     height=500
 )
 
-chart_mort = alt.Chart(us_mort)
+chart_mort = alt.vconcat(us_mort).resolve_scale(
+        color = 'independent'
+    )
 
 st.altair_chart(chart_mort,
-    use_container_width=True)
+    use_container_width=False)
