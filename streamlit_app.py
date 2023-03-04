@@ -1,7 +1,7 @@
 import altair as alt
 import pandas as pd
 import streamlit as st
-from process import read_states
+import process_data
 from vega_datasets import data
 
 # Global vars
@@ -9,7 +9,7 @@ PROJECTION_TYPE = "albersUsa"
 
 @st.cache_data
 def collect_state_data():
-    state_df = read_states()
+    state_df = process_data.read_states()
     return state_df
 
 state_df = collect_state_data()
