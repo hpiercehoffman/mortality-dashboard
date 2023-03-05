@@ -43,9 +43,14 @@ with st.sidebar:
 subset_diff = diff_df[diff_df.cause_name == display_cause]
 subset_diff = subset_diff[subset_diff.sex == display_sex]
 
+subset_state = state_df[state_df.cause_name == display_cause]
+subset_state = subset_state[subset_state.sex == display_sex]
+
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
+
 source_diff = subset_diff
+source_states = subset_state
 
 # Map showing the US colored by percent change in mortality
 mort_diff = alt.Chart(counties).mark_geoshape().encode(
@@ -63,7 +68,13 @@ mort_diff = alt.Chart(counties).mark_geoshape().encode(
     height=600
 )
 
-chart_trend = alt.hconcat(mort_diff).resolve_scale(
+state_trends = alt.Chart(source_states).mark_line(point=True).encode(
+    x='year_id:O',
+    y='mx:Q',
+    color='sex:N'
+)
+
+chart_trend = alt.vconcat(mort_diff, state_trends).resolve_scale(
     color='independent'
 )
 
