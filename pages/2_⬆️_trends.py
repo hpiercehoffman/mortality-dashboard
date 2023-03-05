@@ -51,7 +51,7 @@ subset_diff = subset_diff[subset_diff.sex == display_sex]
 
 subset_state = state_df[state_df.cause_name == display_cause]
 subset_state = subset_state[subset_state.sex == display_sex]
-subset_state = subset_state[subset_state.location_name == display_state]
+subset_state = subset_state[subset_state.State == display_state]
 
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
@@ -86,7 +86,7 @@ state_trends = alt.Chart(source_states).mark_line(point=True).encode(
     height=600
 )
 
-chart_trend = alt.vconcat(mort_diff)
+chart_trend = alt.vconcat(mort_diff, state_trends)
 
 st.altair_chart(chart_trend,
     use_container_width=False)
