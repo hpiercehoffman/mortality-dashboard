@@ -30,7 +30,9 @@ def read_poverty_csv():
     return df_poverty
 
 def read_diff_csv():
+    to_remove = ['index', 'measure_id','measure_name', 'age_id', 'metric','measure_ID']
     diff_df = pd.read_csv(
         'data/percent_diff/IHME_USA_COUNTY_USE_INJ_MORTALITY_1980_2014_PCT_DIFF_Y2018M03D13.CSV')
     diff_df = diff_df.dropna(subset=['FIPS'])
+    diff_df = diff_df.drop(columns = [col for col in diff_df.columns if col in to_remove])
     return diff_df
