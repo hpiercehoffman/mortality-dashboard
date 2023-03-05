@@ -88,7 +88,8 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
     color=alt.condition(hover,
                         alt.value('red'),
                         "mx:Q",
-                        title="Deaths per 100,000")
+                        title="Deaths per 100,000"),
+    tooltip=alt.Tooltip('mx:Q', title='Deaths per 100,000')
 ).transform_lookup(
     lookup='id',
     from_=alt.LookupData(data=source_mort, key='id', fields=['mx'])
