@@ -40,12 +40,12 @@ with st.sidebar:
         index=0
     )
 
-subset_df = diff_df[diff_df.cause_name == display_cause]
-subset_df = subset_df[subset_df.sex == display_sex]
+subset_diff = diff_df[diff_df.cause_name == display_cause]
+subset_diff = subset_diff[subset_diff.sex == display_sex]
 
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
-source_diff = diff_df
+source_diff = subset_diff
 
 # Map showing the US colored by percent change in mortality
 mort_diff = alt.Chart(counties).mark_geoshape().encode(
