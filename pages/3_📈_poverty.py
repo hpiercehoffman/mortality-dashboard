@@ -13,3 +13,7 @@ st.set_page_config(page_title="2014 Poverty Rates", page_icon="📈")
 def collect_poverty_data():
     poverty_df = read_poverty_csv()
     return poverty_df
+
+st.write("2014 poverty rates")
+
+st.dataframe(poverty_df)
