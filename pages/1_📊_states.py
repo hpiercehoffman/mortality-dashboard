@@ -87,8 +87,8 @@ if display_state == 'USA':
     ).project(
         "albersUsa"
     ).properties(
-        width=500,
-        height=300
+        width=800,
+        height=400
     )
     chart_mort = us_mort
     
