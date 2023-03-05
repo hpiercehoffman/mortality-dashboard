@@ -72,11 +72,12 @@ state_trends = alt.Chart(source_states).mark_line(point=True).encode(
     x='year_id:O',
     y='mx:Q',
     color='sex:N'
+).properties(
+    width=800,
+    height=600
 )
 
-chart_trend = alt.vconcat(mort_diff, state_trends).resolve_scale(
-    color='independent'
-)
+chart_trend = alt.vconcat(mort_diff, state_trends)
 
 st.altair_chart(chart_trend,
     use_container_width=False)
