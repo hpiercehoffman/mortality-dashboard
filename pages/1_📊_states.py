@@ -86,7 +86,7 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
 ).properties(
     width=800,
     height=600
-).add_selection(highlight)
+)
 
 map_state =alt.Chart(data = counties).mark_geoshape().transform_calculate(
         state_id = "(datum.id / 1000)|0"
