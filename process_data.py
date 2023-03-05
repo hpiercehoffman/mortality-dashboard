@@ -28,3 +28,8 @@ def read_poverty_csv():
     df_poverty = df_poverty[df_poverty.columns.drop(
         list(df_poverty.filter(regex='CI|Estimate|Postal Code')))]
     return df_poverty
+
+def read_diff_csv():
+    df_diff = pd.read_csv(
+        'data/percent_diff/IHME_USA_COUNTY_USE_INJ_MORTALITY_1980_2014_PCT_DIFF_Y2018M03D13')
+    return df_diff
