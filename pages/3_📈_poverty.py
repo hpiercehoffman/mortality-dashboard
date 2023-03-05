@@ -51,7 +51,7 @@ subset_df = state_df[state_df.cause_name == display_cause]
 subset_df = subset_df[subset_df.sex == display_sex]
 subset_df = subset_df[subset_df.year_id == display_year]
 
-click = alt.selection_single(fields=['id'], empty='none')
+hover = alt.selection_single(on='mouseover', fields=['id'], empty='none')
 
 st.title("2014 poverty and mortality rates")
 
@@ -62,14 +62,17 @@ source_mort = subset_df
 
 # Map showing the US colored by poverty rates
 us_poverty = alt.Chart(counties).mark_geoshape().encode(
-    color=alt.condition(click, alt.value('red'), "percent:Q")
+    color=alt.condition(hover,
+                        alt.value('red'),
+                        "percent:Q",
+                        title="Percent Poverty")
 ).transform_lookup(
     lookup='id',
     from_=alt.LookupData(data=source_poverty, key='id', fields=['percent'])
 ).project(
     "albersUsa"
 ).add_selection(
-    click
+    hover
 ).properties(
     title="2014 Poverty Rates",
     width=300,
@@ -78,13 +81,17 @@ us_poverty = alt.Chart(counties).mark_geoshape().encode(
 
 # Map showing the US colored by mortality rates
 us_mort = alt.Chart(counties).mark_geoshape().encode(
-    color=alt.Color('mx:Q',
-                    title="Deaths per 100,000")
+    color=alt.condition(hover,
+                        alt.value('red'),
+                        "mx:Q",
+                        title="Deaths per 100,000")
 ).transform_lookup(
     lookup='id',
     from_=alt.LookupData(data=source_mort, key='id', fields=['mx'])
 ).project(
     "albersUsa"
+).add_selection(
+    hover
 ).properties(
     title="2014 Mortality Rates",
     width=300,
