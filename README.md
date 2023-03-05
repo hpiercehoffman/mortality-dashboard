@@ -23,4 +23,6 @@ https://hpiercehoffman-bmi706-outliers-streamlit-app-3kgmdn.streamlit.app
 
 ## Altair features ##
 * Renaming tooltips: https://stackoverflow.com/questions/52223358/rename-tooltip-in-altair
+* Formatting values in tooltips: https://stackoverflow.com/questions/66614926/is-there-a-way-to-format-tooltip-values-in-altair-boxplot
+
 
