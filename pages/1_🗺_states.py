@@ -5,7 +5,8 @@ from vega_datasets import data
 
 import process_data
 
-st.set_page_config(page_title="Country", page_icon="📈")
+# Configure how the page appears in browser tab
+st.set_page_config(page_title="U.S. Mortality", page_icon="📈")
 
 @st.cache_data
 
@@ -17,6 +18,8 @@ def collect_state_data():
     return state_df
 
 state_df = collect_state_data()
+
+# Additional processing to filter the dataframe for only states, not counties
 state_df["str_id"] = state_df["id"].astype(str)
 msk = state_df['str_id'].str.len() <= 2
 only_state_df = state_df.loc[msk] 
@@ -47,7 +50,7 @@ with st.sidebar:
         value=1990
     )
     
-    # Select widget for mortality causes
+    # Selectbox widget for state to show in detail
     display_state = st.selectbox(
         label="Select a state",
         options=state_df["State"].unique(),
@@ -58,15 +61,21 @@ with st.sidebar:
 # Main chart title
 st.write("Mortality rates by county")
 
+# Subset the dataframe to display only selected categories
 subset_df = state_df[state_df.cause_name.isin(display_causes)]
 subset_df = subset_df[subset_df.sex == display_sex]
 subset_df = subset_df[subset_df.year_id == display_year]
 
+# Subset the dataframe to entries belonging to the selected state
+subset_df_state = subset_df[subset_df.State == display_state]
+
+# Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 source = subset_df
 
-selector = alt.selection_single()
+# selector = alt.selection_single()
 
+# Main map showing the whole U.S. colored by mortality rate
 us_mort = alt.Chart(counties).mark_geoshape().encode(
     color=alt.Color('mx:Q',
                     title="Deaths per 100,000")
@@ -79,8 +88,6 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
     width=800,
     height=600
 )
-
-subset_df_state = subset_df[subset_df.State == display_state]
 
 map_state =alt.Chart(data = counties).mark_geoshape(
         stroke='black',
