@@ -13,7 +13,8 @@ st.set_page_config(page_title="2014 Poverty Rates", page_icon="📈")
 def collect_poverty_data():
     poverty_df = process_data.read_poverty_csv()
     poverty_df = poverty_df.rename({'Poverty Percent, All Ages': 'percent',
-                                    'County FIPS Code': 'id'})
+                                    'County FIPS Code': 'id'},
+                                    axis='columns')
     return poverty_df
 
 poverty_df = collect_poverty_data()
