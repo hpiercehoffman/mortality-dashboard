@@ -127,7 +127,7 @@ if display_state != 'USA':
             width=600,
             height=300
         )
-    chart_mort = alt.vconcat(us_mort, map_state).resolve_scale(
+    chart_mort = alt.vconcat(us_mort, state_mort).resolve_scale(
         color = 'independent')
 
 st.altair_chart(chart_mort,
