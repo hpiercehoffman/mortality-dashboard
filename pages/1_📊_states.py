@@ -73,8 +73,6 @@ subset_df_state = subset_df[subset_df.State == display_state]
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 source = subset_df
 
-# selector = alt.selection_single()
-
 # Main map showing the whole U.S. colored by mortality rate
 us_mort = alt.Chart(counties).mark_geoshape().encode(
     color=alt.Color('mx:Q',
