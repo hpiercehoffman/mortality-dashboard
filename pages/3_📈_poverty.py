@@ -32,7 +32,7 @@ with st.sidebar:
 
     # Selectbox widget for mortality cause
     display_cause = st.selectbox(
-        label="Select a more mortality causes",
+        label="Select a mortality cause",
         options=state_df["cause_name"].unique(),
         index=0
     )
@@ -57,6 +57,7 @@ st.write("2014 poverty and mortality rates")
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 source = poverty_df
 
+# Map showing the US colored by poverty rates
 us_poverty = alt.Chart(counties).mark_geoshape().encode(
     color=alt.Color('percent:Q',
                     title="Percent Poverty")
@@ -66,14 +67,28 @@ us_poverty = alt.Chart(counties).mark_geoshape().encode(
 ).project(
     "albersUsa"
 ).properties(
-    width=800,
-    height=600
+    width=400,
+    height=300
 )
 
-chart_poverty = alt.hconcat(us_poverty).resolve_scale(
+# Map showing the US colored by mortality rates
+us_mort = alt.Chart(counties).mark_geoshape().encode(
+    color=alt.Color('mx:Q',
+                    title="Deaths per 100,000")
+).transform_lookup(
+    lookup='id',
+    from_=alt.LookupData(data=source, key='id', fields=['mx'])
+).project(
+    "albersUsa"
+).properties(
+    width=400,
+    height=300
+)
+
+chart_2014 = alt.hconcat(us_poverty, us_mort).resolve_scale(
     color='independent'
 )
 
-st.altair_chart(chart_poverty,
+st.altair_chart(chart_2014,
     use_container_width=False)
 
