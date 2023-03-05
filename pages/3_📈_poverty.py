@@ -19,9 +19,39 @@ def collect_poverty_data():
     poverty_df["id"] = poverty_df["id"].astype(int)
     return poverty_df
 
-poverty_df = collect_poverty_data()
+def collect_state_data():
+    state_df = process_data.read_states()
+    state_df = state_df.dropna(subset=['FIPS'])
+    state_df["id"] = state_df["FIPS"].astype(int)
+    return state_df
 
-st.write("2014 poverty rates")
+poverty_df = collect_poverty_data()
+state_df = collect_state_data()
+
+with st.sidebar:
+
+    # Selectbox widget for mortality cause
+    display_cause = st.selectbox(
+        label="Select a more mortality causes",
+        options=state_df["cause_name"].unique(),
+        index=0
+    )
+
+    # Radio buttons to select sex
+    display_sex = st.radio(
+        label="Select a sex to display",
+        options=("Male", "Female", "Both"),
+        index=0
+    )
+
+    # Year is restricted to 2014
+    display_year = 2014
+
+subset_df = state_df[state_df.cause_name == display_cause]
+subset_df = subset_df[subset_df.sex == display_sex]
+subset_df = subset_df[subset_df.year_id == display_year]
+
+st.write("2014 poverty and mortality rates")
 
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
@@ -47,4 +77,3 @@ chart_poverty = alt.hconcat(us_poverty).resolve_scale(
 st.altair_chart(chart_poverty,
     use_container_width=False)
 
-st.dataframe(poverty_df)
