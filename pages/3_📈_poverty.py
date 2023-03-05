@@ -62,9 +62,7 @@ source_mort = subset_df
 
 # Map showing the US colored by poverty rates
 us_poverty = alt.Chart(counties).mark_geoshape().encode(
-    color=alt.Color('percent:Q',
-                    title="Percent Poverty"),
-    opacity=alt.condition(click, alt.value(1), alt.value(0.2))
+    color=alt.condition(click, alt.value('red'), "percent:Q")
 ).transform_lookup(
     lookup='id',
     from_=alt.LookupData(data=source_poverty, key='id', fields=['percent'])
