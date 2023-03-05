@@ -42,7 +42,7 @@ with st.sidebar:
     # Selectbox widget for state to show in line plot
     display_state = st.selectbox(
         label="Select a state",
-        options=state_df["State"].unique().tolist().sort(),
+        options=state_df["State"].unique(),
         index=0
     )
 
@@ -74,6 +74,8 @@ mort_diff = alt.Chart(counties).mark_geoshape().encode(
     width=800,
     height=600
 )
+
+st.dataframe(source_states)
 
 state_trends = alt.Chart(source_states).mark_line(point=True).encode(
     x='year_id:O',
