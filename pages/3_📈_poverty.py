@@ -14,6 +14,7 @@ def collect_poverty_data():
     poverty_df = process_data.read_poverty_csv()
     poverty_df = poverty_df.rename({'Poverty Percent, All Ages': 'percent',},
                                     axis='columns')
+    poverty_df["County FIPS Code"] = poverty_df["County FIPS Code"].astype(str).str.zfill(3)
     poverty_df["id"] = poverty_df["State FIPS Code"].astype(str) + poverty_df["County FIPS Code"].astype(str)
     poverty_df["id"] = poverty_df["id"].astype(int)
     return poverty_df
