@@ -126,7 +126,7 @@ if display_state != 'USA':
         ).project("albersUsa").properties(
             width=600,
             height=300
-        ).add_selection(highlight)
+        )
     chart_mort = alt.vconcat(us_mort, map_state).resolve_scale(
         color = 'independent')
 
