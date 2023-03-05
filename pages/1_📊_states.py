@@ -85,7 +85,7 @@ if display_state == 'USA':
     ).encode(
         color=alt.Color('mx:Q', title="Deaths per 100,000"),
         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
-                 alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')
+                 alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
     ).project(
         "albersUsa"
     ).properties(
@@ -110,7 +110,7 @@ if display_state != 'USA':
     ).encode(
         color=alt.condition((alt.datum.state_id)==display_state_id, 'mx:Q', alt.value("#808080"), title="Deaths per 100,000", scale=us_scale),
         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
-                 alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')
+                 alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
     ).project(
         "albersUsa"
     ).properties(
@@ -125,7 +125,7 @@ if display_state != 'USA':
         ).encode(
             color=alt.Color('mx:Q', title="Deaths per 100,000", scale=us_scale),
             tooltip=[alt.Tooltip('location_name:N', title='County Name'),
-                     alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')
+                     alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
         ).transform_lookup(
             lookup='id', 
             from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx'])
