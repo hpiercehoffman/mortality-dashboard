@@ -76,9 +76,7 @@ source = subset_df
 highlight = alt.selection_single(on='mouseover', fields=['id'], empty='none')
 
 # Main map showing the whole U.S. colored by mortality rate
-us_mort = alt.Chart(counties).mark_geoshape(
- stroke='black',
-        strokeWidth=1).encode(
+us_mort = alt.Chart(counties).mark_geoshape().encode(
     color=alt.Color('mx:Q',
                     title="Deaths per 100,000")
 ).transform_lookup(
@@ -91,10 +89,7 @@ us_mort = alt.Chart(counties).mark_geoshape(
     height=600
 )
 
-map_state =alt.Chart(data = counties).mark_geoshape(
-        stroke='black',
-        strokeWidth=1
-    ).transform_calculate(
+map_state =alt.Chart(data = counties).mark_geoshape().transform_calculate(
         state_id = "(datum.id / 1000)|0"
     ).transform_filter(
         (alt.datum.state_id)==display_state_id
