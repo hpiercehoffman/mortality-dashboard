@@ -119,7 +119,7 @@ if display_state is not 'USA':
         ).transform_filter(
             (alt.datum.state_id)==display_state_id
         ).encode(
-            color=alt.Color('mx:Q', title="Deaths per 100,000", scale=us_scale, title="Deaths per 100,000")
+            color=alt.Color('mx:Q', title="Deaths per 100,000", scale=us_scale)
         ).transform_lookup(
             lookup='id', 
             from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx'])
