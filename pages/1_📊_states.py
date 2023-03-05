@@ -104,7 +104,9 @@ map_state =alt.Chart(data = counties).mark_geoshape(
     ).project("albersUsa").properties(
         width=500,
         height=300
-    ).add_selection(highlight)
+    ).transform_filter(
+    highlight
+    )
 
 chart_mort = alt.vconcat(us_mort, map_state).resolve_scale(
         color = 'independent')
