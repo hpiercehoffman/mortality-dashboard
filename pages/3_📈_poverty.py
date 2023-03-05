@@ -14,6 +14,8 @@ def collect_poverty_data():
     poverty_df = read_poverty_csv()
     return poverty_df
 
+poverty_df = collect_poverty_data()
+
 st.write("2014 poverty rates")
 
 st.dataframe(poverty_df)
