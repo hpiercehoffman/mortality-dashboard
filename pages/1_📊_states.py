@@ -81,7 +81,7 @@ if display_state == 'USA':
     us_mort = alt.Chart(counties).mark_geoshape(
     ).transform_lookup(
         lookup='id',
-        from_=alt.LookupData(data=subset_df, key='id', fields=['mx'])
+        from_=alt.LookupData(data=subset_df, key='id', fields=['mx', 'location_name'])
     ).encode(
         color=alt.Color('mx:Q', title="Deaths per 100,000"),
         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
@@ -104,7 +104,7 @@ if display_state != 'USA':
     us_mort = alt.Chart(counties).mark_geoshape(
     ).transform_lookup(
         lookup='id',
-        from_=alt.LookupData(data=subset_df, key='id', fields=['mx'])
+        from_=alt.LookupData(data=subset_df, key='id', fields=['mx', 'location_name'])
     ).transform_calculate(
         state_id = "(datum.id / 1000)|0"
     ).encode(
@@ -128,7 +128,7 @@ if display_state != 'USA':
                      alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
         ).transform_lookup(
             lookup='id', 
-            from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx'])
+            from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx', 'location_name'])
         ).project("albersUsa").properties(
             width=600,
             height=300
