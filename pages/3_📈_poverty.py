@@ -55,7 +55,8 @@ st.write("2014 poverty and mortality rates")
 
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
-source = poverty_df
+source_poverty = poverty_df
+source_mort = subset_df
 
 # Map showing the US colored by poverty rates
 us_poverty = alt.Chart(counties).mark_geoshape().encode(
@@ -63,7 +64,7 @@ us_poverty = alt.Chart(counties).mark_geoshape().encode(
                     title="Percent Poverty")
 ).transform_lookup(
     lookup='id',
-    from_=alt.LookupData(data=source, key='id', fields=['percent'])
+    from_=alt.LookupData(data=source_poverty, key='id', fields=['percent'])
 ).project(
     "albersUsa"
 ).properties(
@@ -77,7 +78,7 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
                     title="Deaths per 100,000")
 ).transform_lookup(
     lookup='id',
-    from_=alt.LookupData(data=source, key='id', fields=['mx'])
+    from_=alt.LookupData(data=source_mort, key='id', fields=['mx'])
 ).project(
     "albersUsa"
 ).properties(
