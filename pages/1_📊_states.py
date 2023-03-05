@@ -106,7 +106,7 @@ if display_state != 'USA':
     ).transform_calculate(
         state_id = "(datum.id / 1000)|0"
     ).encode(
-        color=alt.condition((alt.datum.state_id)==display_state_id, 'mx:Q', alt.value("#E48A3F"), title="Deaths per 100,000")
+        color=alt.condition((alt.datum.state_id)==display_state_id, 'mx:Q', alt.value("#E48A3F"), title="Deaths per 100,000", scale=us_scale)
     ).project(
         "albersUsa"
     ).properties(
