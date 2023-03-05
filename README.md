@@ -20,3 +20,7 @@ https://hpiercehoffman-bmi706-outliers-streamlit-app-3kgmdn.streamlit.app
 
 ## Altair documentation ##
 * Altair chloropleth map: https://altair-viz.github.io/gallery/choropleth.html
+
+## Altair features ##
+* Renaming tooltips: https://stackoverflow.com/questions/52223358/rename-tooltip-in-altair
+

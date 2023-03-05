@@ -51,8 +51,6 @@ subset_df = state_df[state_df.cause_name == display_cause]
 subset_df = subset_df[subset_df.sex == display_sex]
 subset_df = subset_df[subset_df.year_id == display_year]
 
-hover = alt.selection_single(on='mouseover', fields=['id'], empty='none')
-
 st.title("2014 poverty and mortality rates")
 
 # Map of the U.S. by counties
@@ -62,10 +60,7 @@ source_mort = subset_df
 
 # Map showing the US colored by poverty rates
 us_poverty = alt.Chart(counties).mark_geoshape().encode(
-    color=alt.condition(hover,
-                        alt.value('red'),
-                        "percent:Q",
-                        title="Percent Poverty"),
+    color=alt.Color("percent:Q", title="Percent Poverty"),
     tooltip=[alt.Tooltip('Name:N', title='County'),
              alt.Tooltip('percent:Q', title='Percent Poverty')]
 ).transform_lookup(
@@ -75,8 +70,6 @@ us_poverty = alt.Chart(counties).mark_geoshape().encode(
                          fields=['percent', 'Name'])
 ).project(
     "albersUsa"
-).add_selection(
-    hover
 ).properties(
     title="2014 Poverty Rates",
     width=300,
@@ -85,18 +78,15 @@ us_poverty = alt.Chart(counties).mark_geoshape().encode(
 
 # Map showing the US colored by mortality rates
 us_mort = alt.Chart(counties).mark_geoshape().encode(
-    color=alt.condition(hover,
-                        alt.value('red'),
-                        "mx:Q",
-                        title="Deaths per 100,000"),
+    color=alt.Color("mx:Q", title="Deaths per 100,000"),
     tooltip=alt.Tooltip('mx:Q', title='Deaths per 100,000')
 ).transform_lookup(
     lookup='id',
-    from_=alt.LookupData(data=source_mort, key='id', fields=['mx'])
+    from_=alt.LookupData(data=source_mort,
+                         key='id',
+                         fields=['mx'])
 ).project(
     "albersUsa"
-).add_selection(
-    hover
 ).properties(
     title="2014 Mortality Rates",
     width=300,
