@@ -79,12 +79,13 @@ us_poverty = alt.Chart(counties).mark_geoshape().encode(
 # Map showing the US colored by mortality rates
 us_mort = alt.Chart(counties).mark_geoshape().encode(
     color=alt.Color("mx:Q", title="Deaths per 100,000"),
-    tooltip=alt.Tooltip('mx:Q', title='Deaths per 100,000')
+    tooltip=[alt.Tooltip('location_name:N', title='County Name'),
+             alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
 ).transform_lookup(
     lookup='id',
     from_=alt.LookupData(data=source_mort,
                          key='id',
-                         fields=['mx'])
+                         fields=['mx', 'location_name'])
 ).project(
     "albersUsa"
 ).properties(
