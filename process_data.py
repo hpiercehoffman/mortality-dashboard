@@ -24,5 +24,5 @@ def read_states():
     return df_mort
 
 def read_poverty_csv():
-    df_poverty = pd.read_csv(os.path.join('../data/poverty', 'poverty_2014.xls'))
+    df_poverty = pd.read_csv('data/poverty/poverty_2014.xls')
     return df_poverty
