@@ -102,7 +102,7 @@ map_state =alt.Chart(data = counties).mark_geoshape().transform_calculate(
         height=300
     ).add_selection(highlight)
 
-chart_mort = alt.vconcat(us_mort, map_state).resolve_scale(
+chart_mort = alt.hconcat(us_mort, map_state).resolve_scale(
         color = 'independent')
 
 st.altair_chart(chart_mort,
