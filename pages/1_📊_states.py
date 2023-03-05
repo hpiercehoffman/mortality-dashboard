@@ -54,7 +54,7 @@ with st.sidebar:
     # Selectbox widget for state to show in detail
     display_state = st.selectbox(
         label="Select a state",
-        options=['USA'] + state_df["State"].unique().tolist().sort(),
+        options=['USA'] + sorted(state_df["State"].unique().tolist()),
         index=0
     )
     if display_state is not 'USA':
