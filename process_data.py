@@ -25,5 +25,6 @@ def read_states():
 
 def read_poverty_csv():
     df_poverty = pd.read_excel('data/poverty/poverty_2014.xls')
-    df_poverty = df_poverty[df_poverty.columns.drop(list(df_poverty.filter(regex='CI')))]
+    df_poverty = df_poverty[df_poverty.columns.drop(
+        list(df_poverty.filter(regex='CI|Estimate|Postal Code')))]
     return df_poverty
