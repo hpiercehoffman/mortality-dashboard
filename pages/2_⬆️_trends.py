@@ -86,7 +86,7 @@ state_trends = alt.Chart(source_states).mark_line(point=True).encode(
     height=600
 )
 
-chart_trend = alt.vconcat(mort_diff, state_trends)
+chart_trend = alt.vconcat(mort_diff)
 
 st.altair_chart(chart_trend,
     use_container_width=False)
