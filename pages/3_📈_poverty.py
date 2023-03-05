@@ -23,5 +23,26 @@ st.write("2014 poverty rates")
 
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
+source = poverty_df
+
+us_poverty = alt.Chart(counties).mark_geoshape().encode(
+    color=alt.Color('percent:Q',
+                    title="Percent Poverty")
+).transform_lookup(
+    lookup='id',
+    from_=alt.LookupData(data=source, key='id', fields=['percent'])
+).project(
+    "albersUsa"
+).properties(
+    width=800,
+    height=600
+)
+
+chart_poverty = alt.hconcat(us_poverty).resolve_scale(
+    color='independent'
+)
+
+st.altair_chart(chart_poverty,
+    use_container_width=False)
 
 st.dataframe(poverty_df)
