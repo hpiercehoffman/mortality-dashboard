@@ -30,10 +30,10 @@ state_to_id = {v:i for (v,i) in zip(only_state_df.State, only_state_df.id) }
 # Sidebar for data filtering widgets
 with st.sidebar:
     # Multi-select widget for mortality causes
-    display_causes = st.multiselect(
-        label="Select one or more mortality causes",
+    display_cause = st.selectbox(
+        label="Select a mortality cause",
         options=state_df["cause_name"].unique(),
-        default="Alcohol use disorders"
+        index=0
     )
 
     # Radio buttons to select sex
@@ -64,7 +64,7 @@ with st.sidebar:
 st.write("Mortality rates by county")
 
 # Subset the dataframe to display only selected categories
-subset_df = state_df[state_df.cause_name.isin(display_causes)]
+subset_df = state_df[state_df.cause_name == display_cause]
 subset_df = subset_df[subset_df.sex == display_sex]
 subset_df = subset_df[subset_df.year_id == display_year]
 
@@ -106,7 +106,7 @@ if display_state != 'USA':
     ).transform_calculate(
         state_id = "(datum.id / 1000)|0"
     ).encode(
-        color=alt.condition((alt.datum.state_id)==display_state_id, 'mx:Q', alt.value("#FFFFFF"), title="Deaths per 100,000", scale=us_scale)
+        color=alt.condition((alt.datum.state_id)==display_state_id, 'mx:Q', alt.value("#808080"), title="Deaths per 100,000", scale=us_scale)
     ).project(
         "albersUsa"
     ).properties(
