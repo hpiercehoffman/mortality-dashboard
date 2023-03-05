@@ -50,7 +50,7 @@ subset_diff = diff_df[diff_df.cause_name == display_cause]
 subset_diff = subset_diff[subset_diff.sex == display_sex]
 
 subset_state = state_df[state_df.cause_name == display_cause]
-subset_state = subset_state[subset_state.sex == display_sex]
+# subset_state = subset_state[subset_state.sex == display_sex]
 subset_state = subset_state[subset_state.State == display_state]
 
 # Map of the U.S. by counties
