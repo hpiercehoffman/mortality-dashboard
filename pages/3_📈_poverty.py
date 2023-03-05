@@ -8,7 +8,7 @@ import process_data
 # Configure how the page appears in browser tab
 st.set_page_config(page_title="2014 Poverty Rates", page_icon="📈")
 
-# @st.cache_data
+@st.cache_data
 
 def collect_poverty_data():
     poverty_df = process_data.read_poverty_csv()
@@ -51,25 +51,29 @@ subset_df = state_df[state_df.cause_name == display_cause]
 subset_df = subset_df[subset_df.sex == display_sex]
 subset_df = subset_df[subset_df.year_id == display_year]
 
-st.write("2014 poverty and mortality rates")
+st.title("2014 poverty and mortality rates")
 
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 source_poverty = poverty_df
 source_mort = subset_df
 
+click = alt.selection_single(on='click', fields=['id'], empty='none')
+
 # Map showing the US colored by poverty rates
 us_poverty = alt.Chart(counties).mark_geoshape().encode(
     color=alt.Color('percent:Q',
-                    title="Percent Poverty")
+                    title="Percent Poverty"),
+    stroke=alt.condition(click, "black", "none")
 ).transform_lookup(
     lookup='id',
     from_=alt.LookupData(data=source_poverty, key='id', fields=['percent'])
 ).project(
     "albersUsa"
 ).properties(
-    width=400,
-    height=300
+    title="2014 Poverty Rates",
+    width=300,
+    height=250
 )
 
 # Map showing the US colored by mortality rates
@@ -82,8 +86,9 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
 ).project(
     "albersUsa"
 ).properties(
-    width=400,
-    height=300
+    title="2014 Mortality Rates",
+    width=300,
+    height=250
 )
 
 chart_2014 = alt.hconcat(us_poverty, us_mort).resolve_scale(
