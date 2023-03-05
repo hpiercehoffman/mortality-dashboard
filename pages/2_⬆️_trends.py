@@ -75,7 +75,7 @@ mort_diff = alt.Chart(counties).mark_geoshape().encode(
     height=600
 )
 
-st.dataframe(source_states)
+# st.dataframe(source_states)
 
 state_trends = alt.Chart(source_states).mark_line(point=True).encode(
     x='year_id:O',
