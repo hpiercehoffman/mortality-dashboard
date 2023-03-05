@@ -58,18 +58,13 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 source_poverty = poverty_df
 source_mort = subset_df
 
-click = alt.selection_single(on='click', fields=['id'], empty='none')
-
 # Map showing the US colored by poverty rates
 us_poverty = alt.Chart(counties).mark_geoshape().encode(
     color=alt.Color('percent:Q',
-                    title="Percent Poverty"),
-    # stroke=alt.Stroke(alt.condition(click, alt.value("black"), alt.value("white")))
+                    title="Percent Poverty")
 ).transform_lookup(
     lookup='id',
     from_=alt.LookupData(data=source_poverty, key='id', fields=['percent'])
-).add_selection(
-    click
 ).project(
     "albersUsa"
 ).properties(
