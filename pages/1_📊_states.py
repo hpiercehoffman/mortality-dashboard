@@ -84,8 +84,8 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
 ).project(
     "albersUsa"
 ).properties(
-    width=800,
-    height=600
+    width=400,
+    height=300
 )
 
 map_state =alt.Chart(data = counties).mark_geoshape().transform_calculate(
@@ -98,7 +98,7 @@ map_state =alt.Chart(data = counties).mark_geoshape().transform_calculate(
         lookup='id', 
         from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx'])
     ).project("albersUsa").properties(
-        width=500,
+        width=400,
         height=300
     ).add_selection(highlight)
 
