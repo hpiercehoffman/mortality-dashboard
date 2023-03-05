@@ -12,6 +12,7 @@ st.set_page_config(page_title="Explore Trends", page_icon="⬆️")
 
 def collect_diff_data():
     diff_df = process_data.read_diff_csv()
+    diff_df["id"] = diff_df["FIPS"].astype(int)
     return diff_df
 
 def collect_state_data():
