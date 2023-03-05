@@ -51,7 +51,7 @@ subset_df = state_df[state_df.cause_name == display_cause]
 subset_df = subset_df[subset_df.sex == display_sex]
 subset_df = subset_df[subset_df.year_id == display_year]
 
-click = alt.selection_single(fields=['id'])
+click = alt.selection_single(fields=['id'], empty='none')
 
 st.title("2014 poverty and mortality rates")
 
