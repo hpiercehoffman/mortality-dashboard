@@ -82,15 +82,15 @@ us_scale = alt.Scale(domain=[source['mx'].min(), source['mx'].max()])
 us_mort = alt.Chart(counties).mark_geoshape().transform_lookup(
     lookup='id',
     from_=alt.LookupData(data=source, key='id', fields=['mx'])
+).transform_calculate(
+        state_id = "(datum.id / 1000)|0"
+).encode(
+    color=alt.condition((alt.datum.state_id)==display_state_id, 'mx:Q', alt.value("#E48A3F")
 ).project(
     "albersUsa"
 ).properties(
     width=500,
     height=300
-).transform_calculate(
-        state_id = "(datum.id / 1000)|0"
-).encode(
-    color=alt.condition((alt.datum.state_id)==display_state_id, 'mx:Q', alt.value("#E48A3F")
 )
 
 map_state =alt.Chart(data = counties).mark_geoshape().transform_calculate(
