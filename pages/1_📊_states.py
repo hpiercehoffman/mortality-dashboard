@@ -54,10 +54,10 @@ with st.sidebar:
     # Selectbox widget for state to show in detail
     display_state = st.selectbox(
         label="Select a state",
-        options=['USA'] + state_df["State"].unique().tolist().sort(),
+        options=['USA'] + sorted(state_df["State"].unique().tolist()),
         index=0
     )
-    if display_state is not 'USA':
+    if display_state != 'USA':
         display_state_id = state_to_id[display_state]
 
 # Main chart title
@@ -95,7 +95,7 @@ if display_state == 'USA':
 
 
 # Subset the dataframe to entries belonging to the selected state
-if display_state is not 'USA':
+if display_state != 'USA':
     subset_df_state = subset_df[subset_df.State == display_state]
     us_scale = alt.Scale(domain=[subset_df_state['mx'].min(), subset_df_state['mx'].max()])
     
@@ -119,15 +119,15 @@ if display_state is not 'USA':
         ).transform_filter(
             (alt.datum.state_id)==display_state_id
         ).encode(
-            color=alt.Color('mx:Q', title="Deaths per 100,000", scale=us_scale, title="Deaths per 100,000")
+            color=alt.Color('mx:Q', title="Deaths per 100,000", scale=us_scale)
         ).transform_lookup(
             lookup='id', 
             from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx'])
         ).project("albersUsa").properties(
             width=600,
             height=300
-        ).add_selection(highlight)
-    chart_mort = alt.vconcat(us_mort, map_state).resolve_scale(
+        )
+    chart_mort = alt.vconcat(us_mort, state_mort).resolve_scale(
         color = 'independent')
 
 st.altair_chart(chart_mort,
