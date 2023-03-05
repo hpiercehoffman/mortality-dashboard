@@ -75,12 +75,11 @@ mort_diff = alt.Chart(counties).mark_geoshape().encode(
     height=600
 )
 
-# st.dataframe(source_states)
-
+# Line plot showing mortality trends for the selected state
 state_trends = alt.Chart(source_states).mark_line(point=True).encode(
     x='year_id:O',
-    y='mx:Q',
-    color='location_name:N'
+    y='sum(mx):Q',
+    color='sex:N'
 ).properties(
     width=800,
     height=600
