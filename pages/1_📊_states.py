@@ -57,7 +57,7 @@ with st.sidebar:
         options=['USA'] + sorted(state_df["State"].unique().tolist()),
         index=0
     )
-    if display_state is not 'USA':
+    if display_state != 'USA':
         display_state_id = state_to_id[display_state]
 
 # Main chart title
@@ -95,7 +95,7 @@ if display_state == 'USA':
 
 
 # Subset the dataframe to entries belonging to the selected state
-if display_state is not 'USA':
+if display_state != 'USA':
     subset_df_state = subset_df[subset_df.State == display_state]
     us_scale = alt.Scale(domain=[subset_df_state['mx'].min(), subset_df_state['mx'].max()])
     
