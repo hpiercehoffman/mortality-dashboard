@@ -85,7 +85,7 @@ us_mort = alt.Chart(counties).mark_geoshape().transform_lookup(
 ).transform_calculate(
         state_id = "(datum.id / 1000)|0"
 ).encode(
-    color=alt.condition((alt.datum.state_id)==display_state_id, 'mx:Q', alt.value("#E48A3F")
+    color=alt.condition((alt.datum.state_id)==display_state_id, 'mx:Q', alt.value("#E48A3F"))
 ).project(
     "albersUsa"
 ).properties(
