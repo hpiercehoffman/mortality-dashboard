@@ -64,7 +64,8 @@ click = alt.selection_single(on='click', fields=['id'], empty='none')
 us_poverty = alt.Chart(counties).mark_geoshape().encode(
     color=alt.Color('percent:Q',
                     title="Percent Poverty"),
-    stroke=alt.Stroke(alt.condition(click, alt.value("black"), alt.value("white")))
+    # stroke=alt.Stroke(alt.condition(click, alt.value("black"), alt.value("white")))
+    stroke=alt.Stroke(alt.value("black"))
 ).transform_lookup(
     lookup='id',
     from_=alt.LookupData(data=source_poverty, key='id', fields=['percent'])
