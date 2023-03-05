@@ -70,7 +70,9 @@ us_poverty = alt.Chart(counties).mark_geoshape().encode(
              alt.Tooltip('percent:Q', title='Percent Poverty')]
 ).transform_lookup(
     lookup='id',
-    from_=alt.LookupData(data=source_poverty, key='id', fields=['percent'])
+    from_=alt.LookupData(data=source_poverty,
+                         key='id',
+                         fields=['percent', 'Name'])
 ).project(
     "albersUsa"
 ).add_selection(
