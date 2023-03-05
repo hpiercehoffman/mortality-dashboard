@@ -65,7 +65,9 @@ us_poverty = alt.Chart(counties).mark_geoshape().encode(
     color=alt.condition(hover,
                         alt.value('red'),
                         "percent:Q",
-                        title="Percent Poverty")
+                        title="Percent Poverty"),
+    tooltip=[alt.Tooltip('Name:N', title='County'),
+             alt.Tooltip('percent:Q', title='Percent Poverty')]
 ).transform_lookup(
     lookup='id',
     from_=alt.LookupData(data=source_poverty, key='id', fields=['percent'])
