@@ -2,8 +2,10 @@ import altair as alt
 import pandas as pd
 import streamlit as st
 from vega_datasets import data
+from streamlit_vega_lite import altair_component
 
 import process_data
+
 
 # Configure how the page appears in browser tab
 st.set_page_config(page_title="U.S. Mortality", page_icon="📊")
@@ -16,8 +18,6 @@ def collect_state_data():
     state_df = state_df.dropna(subset=['FIPS'])
     state_df["id"] = state_df["FIPS"].astype(int)
     return state_df
-
-
 
 state_df = collect_state_data()
 
@@ -68,7 +68,6 @@ subset_df = state_df[state_df.cause_name == display_cause]
 subset_df = subset_df[subset_df.sex == display_sex]
 subset_df = subset_df[subset_df.year_id == display_year]
 
-
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 
@@ -77,8 +76,9 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 
 # Main map showing the whole U.S. colored by mortality rate
 
-if display_state == 'USA':
-    us_mort = alt.Chart(counties).mark_geoshape(
+def country_map():
+    selection = alt.selection_single(on='mouseover', fields=['id'], empty='none')
+    return (alt.Chart(counties).mark_geoshape(
     ).transform_lookup(
         lookup='id',
         from_=alt.LookupData(data=subset_df, key='id', fields=['mx', 'location_name'])
@@ -91,11 +91,30 @@ if display_state == 'USA':
     ).properties(
         width=800,
         height=400
-    )
-    chart_mort = us_mort
+    ))
     
+if display_state == 'USA':
+    event_dict = altair_component(altair_chart=country_map())
+    st.write(event_dict)
+    
+#     us_mort = alt.Chart(counties).mark_geoshape(
+#     ).transform_lookup(
+#         lookup='id',
+#         from_=alt.LookupData(data=subset_df, key='id', fields=['mx', 'location_name'])
+#     ).encode(
+#         color=alt.Color('mx:Q', title="Deaths per 100,000"),
+#         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
+#                  alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
+#     ).project(
+#         "albersUsa"
+#     ).properties(
+#         width=800,
+#         height=400
+#     )
+#     chart_mort = us_mort
 
 
+    
 # Subset the dataframe to entries belonging to the selected state
 if display_state != 'USA':
     subset_df_state = subset_df[subset_df.State == display_state]
