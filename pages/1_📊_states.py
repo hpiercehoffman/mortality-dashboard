@@ -109,11 +109,12 @@ if display_state == 'USA':
                  alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
         ).transform_lookup(
             lookup='id', 
-            from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx', 'location_name'])
+            from_=alt.LookupData(data=subset_state , key='id', fields=['mx', 'location_name'])
         ).project("albersUsa").properties(
             width=600,
             height=300
         )
+        st.altair_chart(state_mort)
     
 #     us_mort = alt.Chart(counties).mark_geoshape(
 #     ).transform_lookup(
