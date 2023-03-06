@@ -156,6 +156,5 @@ if display_state != 'USA':
         )
     chart_mort = alt.vconcat(us_mort, state_mort).resolve_scale(
         color = 'independent')
-
 # st.altair_chart(chart_mort,
     use_container_width=False)
