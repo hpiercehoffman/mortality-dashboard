@@ -92,7 +92,8 @@ def country_map():
     ).properties(
         width=800,
         height=400
-    ))
+    ).add_selection(selection)
+    )
     
 if display_state == 'USA':
     event_dict = altair_component(altair_chart=country_map())
