@@ -127,7 +127,7 @@ hists = alt.Chart(merged_df).mark_bar(opacity=0.5, thickness=100).encode(
     y='mx:Q', 
     color='sex:N'
 ).transform_filter(
-    selector
+    brush
 )
 
 chart_2014 = alt.vconcat(us_poverty, us_mort, scatter_state + hists).resolve_scale(
