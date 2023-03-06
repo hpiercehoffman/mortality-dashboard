@@ -105,7 +105,7 @@ if display_state == 'USA':
         ).transform_filter(
             (alt.datum.state_id)==state_fips
         ).encode(
-            stroke=alt.condition(alt.datum.id==county_fips, alt.value('black'), alt.value('white')),
+            text=alt.condition(alt.datum.id==county_fips, alt.value(str(county_fips)), alt.value(' ')),
             color=alt.Color('mx:Q', title="Deaths per 100,000"),
             tooltip=[alt.Tooltip('location_name:N', title='County Name'),
                  alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
