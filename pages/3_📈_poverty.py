@@ -110,7 +110,7 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
         height=300
     ).add_selection(selection)
 
-brush = alt.selection_interval(fields=['id'])
+brush = alt.selection_interval(fields=['id'], resolve='global')
 
 #subset_df_state = subset_df_state[subset_df_state.sex == 'Both']
 merged_df = subset_df_state.merge(source_poverty, how='inner')
