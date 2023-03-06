@@ -58,9 +58,11 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 source_poverty = poverty_df
 source_mort = subset_df
 
+selection = alt.selection_single(fields=['id'], empty="none")
+
 # Map showing the US colored by poverty rates
 us_poverty = alt.Chart(counties).mark_geoshape().encode(
-    color=alt.Color("percent:Q", title="Percent Poverty"),
+    color=alt.condition(selection, alt.value('red'), "mx:Q"),
     tooltip=[alt.Tooltip('Name:N', title='County'),
              alt.Tooltip('percent:Q', title='Percent Poverty')]
 ).transform_lookup(
@@ -72,13 +74,13 @@ us_poverty = alt.Chart(counties).mark_geoshape().encode(
     "albersUsa"
 ).properties(
     title="2014 Poverty Rates",
-    width=300,
-    height=250
-)
+    width=650,
+    height=300
+).add_selection(selection)
 
 # Map showing the US colored by mortality rates
 us_mort = alt.Chart(counties).mark_geoshape().encode(
-    color=alt.Color("mx:Q", title="Deaths per 100,000"),
+    color=alt.condition(selection, alt.value('red'), "mx:Q"),
     tooltip=[alt.Tooltip('location_name:N', title='County Name'),
              alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
 ).transform_lookup(
@@ -90,11 +92,11 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
     "albersUsa"
 ).properties(
     title="2014 Mortality Rates",
-    width=300,
-    height=250
-)
+    width=650,
+    height=300
+).add_selection(selection)
 
-chart_2014 = alt.hconcat(us_poverty, us_mort).resolve_scale(
+chart_2014 = alt.vconcat(us_poverty, us_mort).resolve_scale(
     color='independent'
 )
 
