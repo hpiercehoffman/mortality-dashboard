@@ -4,17 +4,18 @@ import streamlit as st
 from vega_datasets import data
 
 import process_data
+from streamlit_vega_lite import altair_component
 
 # Configure how the page appears in browser tab
 st.set_page_config(page_title="Explore Trends", page_icon="⬆️")
 
 @st.cache_data
-
 def collect_diff_data():
     diff_df = process_data.read_diff_csv()
     diff_df["id"] = diff_df["FIPS"].astype(int)
     return diff_df
 
+@st.cache_data
 def collect_state_data():
     state_df = process_data.read_states()
     state_df = state_df.dropna(subset=['FIPS'])
