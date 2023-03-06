@@ -111,8 +111,9 @@ mort_diff = alt.Chart(counties).mark_geoshape().encode(
 )
 
 # Line plot showing mortality trends for the selected state
+st.write(f'Trends across sex for {display_state}')
 state_trends = alt.Chart(subset_state).mark_line(point=True).transform_filter(
-    (alt.datum.sex == 'Male') | (alt.datum.sex == 'Female)
+    (alt.datum.sex == 'Male') | (alt.datum.sex == 'Female')
 ).encode(
     x='year_id:O',
     y='sum(mx):Q',
