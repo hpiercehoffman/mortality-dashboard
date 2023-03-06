@@ -112,7 +112,7 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
 
 #subset_df_state = subset_df_state[subset_df_state.sex == 'Both']
 merged_df = subset_df_state.merge(source_poverty, how='inner')
-brush = alt.selection_interval(init={'y': [0,1]})
+brush = alt.selection_interval()
 
 scatter_state = alt.Chart(merged_df).mark_circle(size=60).encode(
     x='percent:Q',
@@ -126,9 +126,14 @@ hists = alt.Chart(merged_df).mark_bar(opacity=0.5, thickness=100).encode(
     y='mx:Q', 
     color='sex:N'
 ).transform_filter(
-    brush
-).transform_filter(
     alt.datum.sex != 'Both'
+).transform_filter(
+    brush
+).transform_window(
+    rank='rank(mx)',
+    sort=[alt.SortField('mx', order='descending')]
+).transform_filter(
+    (alt.datum.rank < 10)
 )
 
 chart_2014 = alt.vconcat(us_poverty, us_mort, scatter_state | hists).resolve_scale(
