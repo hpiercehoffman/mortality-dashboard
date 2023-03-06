@@ -95,8 +95,7 @@ def country_map():
           height=300
       ).add_selection(selection)
   
-  return alt.vconcat(us_poverty, us_mort).resolve_scale(
-    color='independent')
+  return us_poverty + us_mort
 
 st.write("Select a county to see its state view")
 fips = altair_component(altair_chart=country_map()).get("id")
