@@ -57,6 +57,8 @@ id_to_county = {v: k for k, v in county_to_id.items()}
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 
+st.write(subset_diff)
+
 @st.cache_resource
 def country_map_diff():
     selection = alt.selection_single(fields=['id'], empty="none")
