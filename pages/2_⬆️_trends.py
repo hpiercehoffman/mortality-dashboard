@@ -74,12 +74,9 @@ def country_map_diff():
         height=300
     ))
 
-ch = country_map_diff()
-st.altair_chart(ch)
-
 st.write("Select a county to see its trends")
-fips = altair_component(altair_chart=country_map_diff()).get("id")
-print(fips)
+fips_c = altair_component(altair_chart=country_map_diff()).get("id")
+print(fips_c)
 if fips:
     county_fips = fips[0]
     st.write(f"Mortality trends across sexes for {id_to_county[county_fips]}")
