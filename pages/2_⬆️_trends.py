@@ -64,7 +64,7 @@ def ret_fips():
             lookup='id',
             from_=alt.LookupData(data=subset_diff, key='id', fields=['pc_change_val', 'location_name'])
         ).encode(
-            color=alt.condition(selection, alt.value('red'), 'pc_change_val:Q'),
+            color='pc_change_val:Q',
             tooltip=[alt.Tooltip('location_name:N', title='County Name'),
                      alt.Tooltip('pc_change_val:Q', title='Percentage change', format='.2f')]
         ).project(
