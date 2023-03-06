@@ -37,12 +37,12 @@ with st.sidebar:
 
     display_sex = "Both"
     
-    # Selectbox widget for state to show in line plot
-    display_state = st.selectbox(
-        label="Select a state",
-        options=state_df["State"].unique(),
-        index=0
-    )
+#     # Selectbox widget for state to show in line plot
+#     display_state = st.selectbox(
+#         label="Select a state",
+#         options=state_df["State"].unique(),
+#         index=0
+#     )
 
 subset_diff = diff_df[diff_df.cause_name == display_cause]
 subset_diff = subset_diff[subset_diff.sex == display_sex]
