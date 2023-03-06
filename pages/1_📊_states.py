@@ -65,7 +65,7 @@ subset_df = subset_df[subset_df.year_id == display_year]
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 
 # Main map showing the whole U.S. colored by mortality rate
-@st.cache
+#@st.cache
 def country_map():
     selection = alt.selection_single(fields=['id'], empty="none")
     return (alt.Chart(counties).mark_geoshape(
