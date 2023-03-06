@@ -89,9 +89,6 @@ def country_map():
                  alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
     ).project(
         "albersUsa"
-    ).properties(
-        width=600,
-        height=300
     ).add_selection(selection)
     )
     
