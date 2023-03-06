@@ -6,6 +6,50 @@ from streamlit_vega_lite import altair_component
 
 import process_data
 
+def my_altair_component(altair_chart, key=None):
+    import streamlit.components.v1 as components 
+    
+    """Returns selections from the Altair chart.
+    Parameters
+    ----------
+    altair_chart: altair.vegalite.v2.api.Chart
+        The Altair chart object to display.
+    key: str or None
+        An optional key that uniquely identifies this component. If this is
+        None, and the component"s arguments are changed, the component will
+        be re-mounted in the Streamlit frontend and lose its current state.
+    Returns
+    -------
+    dict
+        The selections from the chart.
+    """
+
+    import altair as alt
+
+    # Normally altair_chart.to_dict() would transform the dataframe used by the
+    # chart into an array of dictionaries. To avoid that, we install a
+    # transformer that replaces datasets with a reference by the object id of
+    # the dataframe. We then fill in the dataset manually later on.
+
+    datasets = {}
+
+    # make a copy of the chart so that we don't have to rerender it even if nothing changed
+    altair_chart = altair_chart.copy()
+
+    def id_transform(data):
+        """Altair data transformer that returns a fake named dataset with the
+        object id."""
+        name = f"d{id(data)}"
+        datasets[name] = data
+        return {"name": name}
+
+    alt.data_transformers.register("id", id_transform)
+
+    with alt.data_transformers.enable("id"):
+        chart_dict = altair_chart.to_dict()
+
+    return _component_func(spec=chart_dict, **datasets, key=key, default={})
+
 
 # Configure how the page appears in browser tab
 st.set_page_config(page_title="U.S. Mortality", page_icon="📊")
@@ -86,7 +130,7 @@ def country_map():
 #         color = alt.condition(selection, alt.value('red'), "Deaths per 100,000:Q"),
 
 st.write("Select a county to see its state view")
-fips = altair_component(altair_chart=country_map()).get("id")
+fips = my_altair_component(altair_chart=country_map()).get("id")
 if fips:
     state_fips = int(fips[0]/1000)|0
     st.write(f"Mortality rates for {id_to_state[state_fips]} ")
