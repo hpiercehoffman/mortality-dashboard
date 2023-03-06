@@ -97,6 +97,7 @@ def country_map():
     
 if display_state == 'USA':
     fips = altair_component(altair_chart=country_map()).get("id")
+    st.write(fips)
     if fips:
         state_fips = int(fips[0])/1000|0
         state_mort =alt.Chart(counties).mark_geoshape().transform_calculate(
@@ -114,9 +115,6 @@ if display_state == 'USA':
             width=600,
             height=300
         )
-        st.write(filtered)
-    
-    st.write(event_dict)
     
 #     us_mort = alt.Chart(counties).mark_geoshape(
 #     ).transform_lookup(
@@ -137,44 +135,44 @@ if display_state == 'USA':
 
     
 # Subset the dataframe to entries belonging to the selected state
-if display_state != 'USA':
-    subset_df_state = subset_df[subset_df.State == display_state]
-    us_scale = alt.Scale(domain=[subset_df_state['mx'].min(), subset_df_state['mx'].max()])
+# if display_state != 'USA':
+#     subset_df_state = subset_df[subset_df.State == display_state]
+#     us_scale = alt.Scale(domain=[subset_df_state['mx'].min(), subset_df_state['mx'].max()])
     
-    us_mort = alt.Chart(counties).mark_geoshape(
-    ).transform_lookup(
-        lookup='id',
-        from_=alt.LookupData(data=subset_df, key='id', fields=['mx', 'location_name'])
-    ).transform_calculate(
-        state_id = "(datum.id / 1000)|0"
-    ).encode(
-        color=alt.condition((alt.datum.state_id)==display_state_id, 'mx:Q', alt.value("#808080"), title="Deaths per 100,000", scale=us_scale),
-        tooltip=[alt.Tooltip('location_name:N', title='County Name'),
-                 alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
-    ).project(
-        "albersUsa"
-    ).properties(
-        width=500,
-        height=300
-    )
+#     us_mort = alt.Chart(counties).mark_geoshape(
+#     ).transform_lookup(
+#         lookup='id',
+#         from_=alt.LookupData(data=subset_df, key='id', fields=['mx', 'location_name'])
+#     ).transform_calculate(
+#         state_id = "(datum.id / 1000)|0"
+#     ).encode(
+#         color=alt.condition((alt.datum.state_id)==display_state_id, 'mx:Q', alt.value("#808080"), title="Deaths per 100,000", scale=us_scale),
+#         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
+#                  alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
+#     ).project(
+#         "albersUsa"
+#     ).properties(
+#         width=500,
+#         height=300
+#     )
     
-    state_mort =alt.Chart(counties).mark_geoshape().transform_calculate(
-            state_id = "(datum.id / 1000)|0"
-        ).transform_filter(
-            (alt.datum.state_id)==display_state_id
-        ).encode(
-            color=alt.Color('mx:Q', title="Deaths per 100,000", scale=us_scale),
-            tooltip=[alt.Tooltip('location_name:N', title='County Name'),
-                     alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
-        ).transform_lookup(
-            lookup='id', 
-            from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx', 'location_name'])
-        ).project("albersUsa").properties(
-            width=600,
-            height=300
-        )
-    chart_mort = alt.vconcat(us_mort, state_mort).resolve_scale(
-        color = 'independent')
+#     state_mort =alt.Chart(counties).mark_geoshape().transform_calculate(
+#             state_id = "(datum.id / 1000)|0"
+#         ).transform_filter(
+#             (alt.datum.state_id)==display_state_id
+#         ).encode(
+#             color=alt.Color('mx:Q', title="Deaths per 100,000", scale=us_scale),
+#             tooltip=[alt.Tooltip('location_name:N', title='County Name'),
+#                      alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
+#         ).transform_lookup(
+#             lookup='id', 
+#             from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx', 'location_name'])
+#         ).project("albersUsa").properties(
+#             width=600,
+#             height=300
+#         )
+#     chart_mort = alt.vconcat(us_mort, state_mort).resolve_scale(
+#         color = 'independent')
 
 # st.altair_chart(chart_mort,
 #     use_container_width=False)
