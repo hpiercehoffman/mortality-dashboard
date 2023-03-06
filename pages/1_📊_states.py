@@ -51,15 +51,6 @@ with st.sidebar:
         max_value=2014,
         value=1990
     )
-    
-    # Selectbox widget for state to show in detail
-    display_state = st.selectbox(
-        label="Select a state",
-        options=['USA'] + sorted(state_df["State"].unique().tolist()),
-        index=0
-    )
-    if display_state != 'USA':
-        display_state_id = state_to_id[display_state]
 
 # Main chart title
 
@@ -71,9 +62,6 @@ subset_df = subset_df[subset_df.year_id == display_year]
 
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
-
-#highlight = alt.selection_single(fields=['id'], empty='none')
-
 
 # Main map showing the whole U.S. colored by mortality rate
 @st.cache
