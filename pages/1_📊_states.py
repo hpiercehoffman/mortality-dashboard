@@ -81,7 +81,7 @@ def country_map():
     ).properties(
         width=650,
         height=300
-    )
+    ))
     
 #         color = alt.condition(selection, alt.value('red'), "Deaths per 100,000:Q"),
 
