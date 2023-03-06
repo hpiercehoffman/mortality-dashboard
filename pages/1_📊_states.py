@@ -96,7 +96,7 @@ def country_map():
     )
     
 if display_state == 'USA':
-    fips = altair_component(altair_chart=country_map()).get("id")
+    fips = altair_component(altair_chart=country_map()).get("id")[0]
     state_fips = fips/1000|0
     if r:
         state_mort =alt.Chart(counties).mark_geoshape().transform_calculate(
