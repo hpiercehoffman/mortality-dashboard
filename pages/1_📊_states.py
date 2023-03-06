@@ -81,8 +81,6 @@ def country_map():
     ).properties(
         width=650,
         height=300
-    ).configure_legend(
-        orient='bottom'
     )
     
 st.write("Select a county to see its state view")
