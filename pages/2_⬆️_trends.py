@@ -33,12 +33,9 @@ with st.sidebar:
         options=state_df["cause_name"].unique(),
         index=0
     )
-    # Radio buttons to select sex
-    display_sex = st.radio(
-        label="Select a sex to display",
-        options=("Male", "Female", "Both"),
-        index=0
-    )
+
+    display_sex = "Both"
+    
     # Selectbox widget for state to show in line plot
     display_state = st.selectbox(
         label="Select a state",
@@ -51,13 +48,48 @@ subset_diff = subset_diff[subset_diff.sex == display_sex]
 
 subset_state = state_df[state_df.cause_name == display_cause]
 # subset_state = subset_state[subset_state.sex == display_sex]
-subset_state = subset_state[subset_state.State == display_state]
+# subset_state = subset_state[subset_state.State == display_state]
+
+county_to_id = {v:i for (v,i) in zip(subset_state .location_name, subset_state.id)}
+id_to_county = {v: k for k, v in county_to_id.items()}
 
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 
-source_diff = subset_diff
-source_states = subset_state
+@st.cache
+def country_map():
+    selection = alt.selection_single(fields=['id'], empty="none")
+    return (alt.Chart(counties).mark_geoshape(
+    ).transform_lookup(
+        lookup='id',
+        from_=alt.LookupData(data=subset_diff, key='id', fields=['pc_change_val', 'location_name'])
+    ).encode(
+        color=alt.condition(selection, alt.value('red'), "pc_change_val:Q"),
+        tooltip=[alt.Tooltip('location_name:N', title='County Name'),
+                 alt.Tooltip('pc_change_val:Q', title='Percentage change', format='.2f')]
+    ).project(
+        "albersUsa"
+    ).add_selection(selection
+    ).properties(
+        width=650,
+        height=300
+    ))
+
+st.write("Select a county to see its trends")
+fips = altair_component(altair_chart=country_map()).get("id")
+if fips:
+    county_fips = fips[0]
+    st.write(f"Mortality trends across sexes for {id_to_county[county_fips]}")
+    state_trends = alt.Chart(source_states).mark_line(point=True).encode(
+        x='year_id:O',
+        y='sum(mx):Q',
+        color='sex:N'
+    ).properties(
+        width=800,
+        height=600
+    )
+    st.altair_chart(state_trends)
+
 
 # Map showing the US colored by percent change in mortality
 mort_diff = alt.Chart(counties).mark_geoshape().encode(
