@@ -60,8 +60,7 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 @st.cache
 def country_map_diff():
     selection = alt.selection_single(fields=['id'], empty="none")
-    return (alt.Chart(counties).mark_geoshape(
-    ).transform_lookup(
+    return (alt.Chart(counties).mark_geoshape().transform_lookup(
         lookup='id',
         from_=alt.LookupData(data=subset_diff, key='id', fields=['pc_change_val', 'location_name'])
     ).encode(
