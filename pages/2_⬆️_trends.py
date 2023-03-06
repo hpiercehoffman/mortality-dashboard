@@ -4,7 +4,6 @@ import streamlit as st
 from vega_datasets import data
 
 import process_data
-from streamlit_vega_lite import altair_component
 
 # Configure how the page appears in browser tab
 st.set_page_config(page_title="Explore Trends", page_icon="⬆️")
@@ -58,6 +57,7 @@ id_to_county = {v: k for k, v in county_to_id.items()}
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 
 def country_map_diff():
+    from streamlit_vega_lite import altair_component
     selection = alt.selection_single(fields=['id'], empty="none")
     return (alt.Chart(counties).mark_geoshape().transform_lookup(
         lookup='id',
