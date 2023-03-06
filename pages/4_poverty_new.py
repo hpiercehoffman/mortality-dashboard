@@ -104,7 +104,7 @@ scatter = alt.Chart(source_mort).mark_circle(size=60).encode(
 )
 
 chart_2014 = alt.vconcat(us_poverty, us_mort, scatter).resolve_scale(
-    color='independent'
+    color='independent')
 
 
 
