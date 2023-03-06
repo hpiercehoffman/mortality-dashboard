@@ -109,19 +109,17 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
         height=300
     ).add_selection(selection)
 
-chart_2014 = alt.vconcat(us_poverty, us_mort).resolve_scale(
-    color='independent'
-)
 
 merged_df = source_mort.merge(source_poverty, how='inner')
-st.write(merged_df)
-
-scatter_state = alt.Chart(source_mort).mark_circle(size=60).encode(
-    x='',
-    y='Miles_per_Gallon',
-    color='Origin',
-    tooltip=['Name', 'Origin', 'Horsepower', 'Miles_per_Gallon']
+scatter_state = alt.Chart(merged_df).mark_circle(size=60).encode(
+    x='percent:Q',
+    y='mx:Q',
+    color='sex:N',
 ).interactive()
+
+chart_2014 = alt.vconcat(us_poverty, us_mort, scatter_state).resolve_scale(
+    color='independent'
+)
 
 st.altair_chart(chart_2014,
     use_container_width=False)
