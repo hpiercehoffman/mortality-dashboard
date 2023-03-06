@@ -113,7 +113,7 @@ if display_state == 'USA':
 #         width=800,
 #         height=400
 #     )
-    chart_mort = country_map()
+    #chart_mort = country_map()
 
 
     
@@ -157,5 +157,5 @@ if display_state != 'USA':
     chart_mort = alt.vconcat(us_mort, state_mort).resolve_scale(
         color = 'independent')
 
-st.altair_chart(chart_mort,
+# st.altair_chart(chart_mort,
     use_container_width=False)
