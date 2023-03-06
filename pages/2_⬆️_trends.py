@@ -53,13 +53,12 @@ subset_state = state_df[state_df.cause_name == display_cause]
 
 county_to_id = {v:i for (v,i) in zip(subset_state.location_name, subset_state.id)}
 id_to_county = {v: k for k, v in county_to_id.items()}
-st.write(county_to_id)
 
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 
 @st.cache
-def country_map():
+def country_map_diff():
     selection = alt.selection_single(fields=['id'], empty="none")
     return (alt.Chart(counties).mark_geoshape(
     ).transform_lookup(
@@ -78,7 +77,8 @@ def country_map():
     ))
 
 st.write("Select a county to see its trends")
-fips = altair_component(altair_chart=country_map()).get("id")
+fips = altair_component(altair_chart=country_map_diff()).get("id")
+print(fips)
 if fips:
     county_fips = fips[0]
     st.write(f"Mortality trends across sexes for {id_to_county[county_fips]}")
