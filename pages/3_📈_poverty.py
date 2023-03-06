@@ -110,11 +110,10 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
         height=300
     ).add_selection(selection)
 
-brush = alt.selection_point(fields=['id'])
+brush = alt.selection_single(fields=['id'])
 
 #subset_df_state = subset_df_state[subset_df_state.sex == 'Both']
 merged_df = subset_df_state.merge(source_poverty, how='inner')
-st.write(merged_df)
 
 scatter_state = alt.Chart(merged_df).mark_circle(size=60).encode(
     x='percent:Q',
