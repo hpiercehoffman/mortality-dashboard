@@ -60,16 +60,9 @@ only_state_df = state_df.loc[msk]
 state_to_id = {v:i for (v,i) in zip(only_state_df.State, only_state_df.id) }
 display_state_id = state_to_id[display_state]     
 
-state_df.state_id = [int(i / 1000)|0  for i in state_df.id]
-st.write(state_df.head())
 subset_df = state_df[state_df.cause_name == display_cause]
 subset_df = subset_df[subset_df.year_id == display_year]
-
-
-subset_state = state_df[state_df.cause_name == display_cause]
-# subset_state = subset_state[subset_state.sex == display_sex]
-subset_state = subset_state[subset_state.State == display_state]
-
+subset_df = subset_df[subset_df.State == display_state]
 
 st.title("2014 poverty and mortality rates")
 
