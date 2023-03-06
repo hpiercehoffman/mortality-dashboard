@@ -46,9 +46,16 @@ with st.sidebar:
 
     # Year is restricted to 2014
     display_year = 2014
+    
+    # Selectbox widget for state to show in line plot
+    display_state = st.selectbox(
+        label="Select a state",
+        options=state_df["State"].unique(),
+        index=0
+    )
 
 subset_df = state_df[state_df.cause_name == display_cause]
-subset_df = subset_df[subset_df.sex == display_sex]
+subset_df = subset_df[subset_df.sex == display_state]
 subset_df = subset_df[subset_df.year_id == display_year]
 
 st.title("2014 poverty and mortality rates")
@@ -99,6 +106,16 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
 chart_2014 = alt.vconcat(us_poverty, us_mort).resolve_scale(
     color='independent'
 )
+
+merged_df = source_mort.merge(source_poverty, how='inner')
+st.write(merged_df)
+
+scatter_state = alt.Chart(source_mort).mark_circle(size=60).encode(
+    x='',
+    y='Miles_per_Gallon',
+    color='Origin',
+    tooltip=['Name', 'Origin', 'Horsepower', 'Miles_per_Gallon']
+).interactive()
 
 st.altair_chart(chart_2014,
     use_container_width=False)
