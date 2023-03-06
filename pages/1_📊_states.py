@@ -71,7 +71,7 @@ subset_df = subset_df[subset_df.year_id == display_year]
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 
-#highlight = alt.selection_single(on='mouseover', fields=['id'], empty='none')
+#highlight = alt.selection_single(fields=['id'], empty='none')
 
 
 # Main map showing the whole U.S. colored by mortality rate
