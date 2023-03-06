@@ -62,7 +62,7 @@ selection = alt.selection_single(fields=['id'], empty="none")
 
 # Map showing the US colored by poverty rates
 us_poverty = alt.Chart(counties).mark_geoshape().encode(
-    color=alt.condition(selection, alt.value('red'), "mx:Q"),
+    color=alt.condition(selection, alt.value('red'), "percent:Q"),
     tooltip=[alt.Tooltip('Name:N', title='County'),
              alt.Tooltip('percent:Q', title='Percent Poverty')]
 ).transform_lookup(
