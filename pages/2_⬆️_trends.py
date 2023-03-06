@@ -57,15 +57,13 @@ id_to_county = {v: k for k, v in county_to_id.items()}
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 
-st.write(subset_diff)
-
 def country_map_diff():
     selection = alt.selection_single(fields=['id'], empty="none")
     return (alt.Chart(counties).mark_geoshape().transform_lookup(
         lookup='id',
         from_=alt.LookupData(data=subset_diff, key='id', fields=['pc_change_val', 'location_name'])
     ).encode(
-        color=alt.condition(selection, alt.value('red'), "pc_change_val:Q"),
+        color=alt.condition(selection, alt.value('red'), 'pc_change_val:Q'),
         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
                  alt.Tooltip('pc_change_val:Q', title='Percentage change', format='.2f')]
     ).project(
