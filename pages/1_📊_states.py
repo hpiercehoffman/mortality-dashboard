@@ -90,8 +90,8 @@ def country_map():
     ).project(
         "albersUsa"
     ).properties(
-        width=800,
-        height=400
+        width=600,
+        height=300
     ).add_selection(selection)
     )
     
