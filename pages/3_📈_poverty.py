@@ -123,7 +123,7 @@ scatter_state = alt.Chart(merged_df).mark_circle(size=60).encode(
 
 hists = alt.Chart(merged_df).mark_bar(opacity=0.5, thickness=100).encode(
     x='location_name:N',
-    y='mx:Q', 
+    y='sum(mx):Q', 
     color='sex:N'
 ).transform_filter(
     alt.datum.sex != 'Both'
