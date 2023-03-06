@@ -71,7 +71,7 @@ def ret_fips():
             "albersUsa"
         ).add_selection(selection
         ).properties(
-            width=650,
+            width=6000,
             height=300
         ))
     return altair_component(altair_chart=country_map_diff()).get("id")
