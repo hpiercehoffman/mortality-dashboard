@@ -76,6 +76,9 @@ def country_map_diff():
         height=300
     ))
 
+ch = country_map_diff()
+st.altair_chart(ch)
+
 st.write("Select a county to see its trends")
 fips = altair_component(altair_chart=country_map_diff()).get("id")
 print(fips)
