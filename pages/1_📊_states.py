@@ -17,7 +17,6 @@ def collect_state_data():
     state_df = process_data.read_states()
     state_df = state_df.dropna(subset=['FIPS'])
     state_df["id"] = state_df["FIPS"].astype(int)
-    state_df.rename(columns={'mx':'Mortality'}, inplace=True)
     return state_df
 
 state_df = collect_state_data()
@@ -65,17 +64,17 @@ subset_df = subset_df[subset_df.year_id == display_year]
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 
 # Main map showing the whole U.S. colored by mortality rate
-#@st.cache
+@st.cache
 def country_map():
     selection = alt.selection_single(fields=['id'], empty="none")
     return (alt.Chart(counties).mark_geoshape(
     ).transform_lookup(
         lookup='id',
-        from_=alt.LookupData(data=subset_df, key='id', fields=['Mortality', 'location_name'])
+        from_=alt.LookupData(data=subset_df, key='id', fields=['mx', 'location_name'])
     ).encode(
-        color=alt.condition(selection, alt.value('red'), "Mortality:Q"),
+        color=alt.condition(selection, alt.value('red'), "mx:Q"),
         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
-                 alt.Tooltip('Mortality:Q', title='Mortality', format='.2f')]
+                 alt.Tooltip('mx:Q', title='Mortality', format='.2f')]
     ).project(
         "albersUsa"
     ).add_selection(selection
@@ -97,12 +96,12 @@ if fips:
     ).transform_filter(
         (alt.datum.state_id)==state_fips
     ).encode(
-        color=alt.Color('Mortality:Q', title="Mortality"),
+        color=alt.Color('mx:Q', title="Mortality"),
         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
-             alt.Tooltip('Mortality:Q', title='Mortality', format='.2f')]
+             alt.Tooltip('mx:Q', title='Mortality', format='.2f')]
     ).transform_lookup(
         lookup='id', 
-        from_=alt.LookupData(data=subset_df , key='id', fields=['Mortality', 'location_name'])
+        from_=alt.LookupData(data=subset_df , key='id', fields=['mx', 'location_name'])
     ).project("albersUsa").properties(
         width=650,
         height=300
