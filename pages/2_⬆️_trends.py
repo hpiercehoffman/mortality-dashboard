@@ -94,33 +94,33 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 #     st.altair_chart(state_trends)
 
 
-# # Map showing the US colored by percent change in mortality
-# mort_diff = alt.Chart(counties).mark_geoshape().encode(
-#     color=alt.Color("pc_change_val:Q", title="Percent change in mortality")
-# ).transform_lookup(
-#     lookup='id',
-#     from_=alt.LookupData(data=source_diff,
-#                          key='id',
-#                          fields=['pc_change_val'])
-# ).project(
-#     "albersUsa"
-# ).properties(
-#     title="Percent Change in Mortality",
-#     width=800,
-#     height=600
-# )
+# Map showing the US colored by percent change in mortality
+mort_diff = alt.Chart(counties).mark_geoshape().encode(
+    color=alt.Color("pc_change_val:Q", title="Percent change in mortality")
+).transform_lookup(
+    lookup='id',
+    from_=alt.LookupData(data=subset_diff,
+                         key='id',
+                         fields=['pc_change_val'])
+).project(
+    "albersUsa"
+).properties(
+    title="Percent Change in Mortality",
+    width=800,
+    height=600
+)
 
-# # Line plot showing mortality trends for the selected state
-# state_trends = alt.Chart(source_states).mark_line(point=True).encode(
-#     x='year_id:O',
-#     y='sum(mx):Q',
-#     color='sex:N'
-# ).properties(
-#     width=800,
-#     height=600
-# )
+# Line plot showing mortality trends for the selected state
+state_trends = alt.Chart(subset_state).mark_line(point=True).encode(
+    x='year_id:O',
+    y='sum(mx):Q',
+    color='sex:N'
+).properties(
+    width=800,
+    height=600
+)
 
-# chart_trend = alt.vconcat(mort_diff, state_trends)
+chart_trend = alt.vconcat(mort_diff, state_trends)
 
-# st.altair_chart(chart_trend,
-#     use_container_width=False)
+st.altair_chart(chart_trend,
+    use_container_width=False)
