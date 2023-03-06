@@ -98,7 +98,6 @@ if fips:
     ).transform_filter(
         (alt.datum.state_id)==state_fips
     ).encode(
-        text=alt.condition(alt.datum.id==county_fips, alt.value(str(county_fips)), alt.value(' ')),
         color=alt.Color('Mortality:Q', title="Mortality"),
         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
              alt.Tooltip('Mortality:Q', title='Mortality', format='.2f')]
