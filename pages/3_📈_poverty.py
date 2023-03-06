@@ -58,7 +58,7 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 source_poverty = poverty_df
 source_mort = subset_df
 
-selection = alt.selection_single(fields=['id'], empty="none", encodings=['color'])
+selection = alt.selection_single(fields=['id'], empty="none")
 
 # Map showing the US colored by poverty rates
 us_poverty = alt.Chart(counties).mark_geoshape().encode(
