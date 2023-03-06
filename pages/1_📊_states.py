@@ -113,7 +113,7 @@ if display_state == 'USA':
             lookup='id', 
             from_=alt.LookupData(data=subset_df , key='id', fields=['mx', 'location_name'])
         ).project("albersUsa").properties(
-            width=600,
+            width=650,
             height=300
         )
         st.altair_chart(state_mort)
