@@ -77,7 +77,7 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 # Main map showing the whole U.S. colored by mortality rate
 @st.cache
 def country_map():
-    selection = alt.selection_single(empty="none")
+    selection = alt.selection_single(fields=['id'], empty="none")
     return (alt.Chart(counties).mark_geoshape(
     ).transform_lookup(
         lookup='id',
