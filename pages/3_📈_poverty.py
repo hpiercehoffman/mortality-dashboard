@@ -61,8 +61,8 @@ state_to_id = {v:i for (v,i) in zip(only_state_df.State, only_state_df.id) }
 display_state_id = state_to_id[display_state]     
 
 state_df.state_id = [int(i / 1000)|0  for i in state_df.id]
-st.write(subset_df)
-subset_df = subset_df[state_df.cause_name == display_cause]
+st.write(state_df)
+subset_df = state_df[state_df.cause_name == display_cause]
 subset_df = subset_df[subset_df.year_id == display_year]
 
 
