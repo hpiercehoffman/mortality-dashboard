@@ -72,9 +72,7 @@ def country_map():
         lookup='id',
         from_=alt.LookupData(data=subset_df, key='id', fields=['mx', 'location_name'])
     ).encode(
-        color=alt.Color(
-            condition=alt.condition(selection, alt.value('red'), "mx:Q")["condition"],
-            title='Deaths per 100,000'),
+        color = alt.condition(selection, alt.value('red'), "mx:Q"),
         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
                  alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
     ).project(
