@@ -38,11 +38,11 @@ with st.sidebar:
     )
 
     # Radio buttons to select sex
-    display_sex = st.radio(
-        label="Select a sex to display",
-        options=("Male", "Female", "Both"),
-        index=0
-    )
+#     display_sex = st.radio(
+#         label="Select a sex to display",
+#         options=("Male", "Female", "Both"),
+#         index=0
+#     )
 
     # Year is restricted to 2014
     display_year = 2014
@@ -54,9 +54,22 @@ with st.sidebar:
         index=0
     )
 
-subset_df = state_df[state_df.cause_name == display_cause]
-subset_df = subset_df[subset_df.sex == display_state]
+state_df["str_id"] = state_df["id"].astype(str)
+msk = state_df['str_id'].str.len() <= 2
+only_state_df = state_df.loc[msk] 
+state_to_id = {v:i for (v,i) in zip(only_state_df.State, only_state_df.id) }
+display_state_id = state_to_id[display_state]     
+
+subset_df = state_df[state_df.id / 1000|0 == display_state_id]
+st.write(subset_df)
+subset_df = subset_df[state_df.cause_name == display_cause]
 subset_df = subset_df[subset_df.year_id == display_year]
+
+
+subset_state = state_df[state_df.cause_name == display_cause]
+# subset_state = subset_state[subset_state.sex == display_sex]
+subset_state = subset_state[subset_state.State == display_state]
+
 
 st.title("2014 poverty and mortality rates")
 
