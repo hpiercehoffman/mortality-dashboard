@@ -21,6 +21,7 @@ def collect_state_data():
     return state_df
 
 state_df = collect_state_data()
+st.write(state_df)
 
 # Additional processing to filter the dataframe for only states, not counties
 state_df["str_id"] = state_df["id"].astype(str)
