@@ -106,18 +106,20 @@ mort_diff = alt.Chart(counties).mark_geoshape().encode(
     "albersUsa"
 ).properties(
     title="Percent Change in Mortality",
-    width=800,
-    height=600
+    width=650,
+    height=300
 )
 
 # Line plot showing mortality trends for the selected state
-state_trends = alt.Chart(subset_state).mark_line(point=True).encode(
+state_trends = alt.Chart(subset_state).mark_line(point=True).transform_filter(
+    (alt.datum.sex == 'Male') | (alt.datum.sex == 'Female)
+).encode(
     x='year_id:O',
     y='sum(mx):Q',
     color='sex:N'
 ).properties(
-    width=800,
-    height=600
+    width=650,
+    height=300
 )
 
 chart_trend = alt.vconcat(mort_diff, state_trends)
