@@ -133,8 +133,8 @@ hists = alt.Chart(merged_df).mark_bar(opacity=0.5, thickness=100).encode(
     sum_mort='sum(mx)',
     groupby=["sex"]
 ).transform_window(
-    rank='rank(alt.datum.sum_mort)',
-    sort=[alt.SortField('alt.datum.sum_mort', order='descending')]
+    rank='rank(sum_mort)',
+    sort=[alt.SortField('sum_mort', order='descending')]
 ).transform_filter(
     (alt.datum.rank < 10)
 )
