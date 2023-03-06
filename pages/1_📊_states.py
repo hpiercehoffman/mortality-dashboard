@@ -99,11 +99,13 @@ if display_state == 'USA':
     fips = altair_component(altair_chart=country_map()).get("id")
     if fips:
         state_fips = int(fips[0]/1000)|0
+        county_fips = fips[0]
         state_mort =alt.Chart(counties).mark_geoshape().transform_calculate(
             state_id = "(datum.id / 1000)|0"
         ).transform_filter(
             (alt.datum.state_id)==state_fips
         ).encode(
+            stroke=alt.condition(alt.datum.id==county_fips, alt.value('red'), alt.value('white')),
             color=alt.Color('mx:Q', title="Deaths per 100,000"),
             tooltip=[alt.Tooltip('location_name:N', title='County Name'),
                  alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
