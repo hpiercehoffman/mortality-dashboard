@@ -10,9 +10,9 @@ import process_data
 # Configure how the page appears in browser tab
 st.set_page_config(page_title="U.S. Mortality", page_icon="📊")
 
-@st.cache_data
 
 # Cache state data from CSV files, dropping entries without a FIPS code
+@st.cache_data
 def collect_state_data():
     state_df = process_data.read_states()
     state_df = state_df.dropna(subset=['FIPS'])
@@ -76,6 +76,7 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 
 # Main map showing the whole U.S. colored by mortality rate
 
+@st.cache
 def country_map():
     selection = alt.selection_single(on='mouseover', fields=['id'], empty='none')
     return (alt.Chart(counties).mark_geoshape(
@@ -111,7 +112,7 @@ if display_state == 'USA':
 #         width=800,
 #         height=400
 #     )
-#     chart_mort = us_mort
+    chart_mort = country_map()
 
 
     
