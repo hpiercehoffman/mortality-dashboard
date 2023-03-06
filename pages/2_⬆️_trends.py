@@ -59,7 +59,6 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 
 st.write(subset_diff)
 
-@st.cache_resource
 def country_map_diff():
     selection = alt.selection_single(fields=['id'], empty="none")
     return (alt.Chart(counties).mark_geoshape().transform_lookup(
@@ -85,7 +84,7 @@ if fips:
     st.write(f"Mortality trends across sexes for {id_to_county[county_fips]}")
     state_trends = alt.Chart(source_states).mark_line(point=True).encode(
         x='year_id:O',
-        y='sum(mx):Q',
+        y='mx:Q',
         color='sex:N'
     ).properties(
         width=800,
