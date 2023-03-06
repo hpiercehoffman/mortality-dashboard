@@ -90,6 +90,9 @@ def country_map():
     ).project(
         "albersUsa"
     ).add_selection(selection)
+    ).properties(
+        width=650,
+        height=300
     )
     
 if display_state == 'USA':
