@@ -128,13 +128,7 @@ hists = alt.Chart(merged_df).mark_bar(opacity=0.5, thickness=100).encode(
 ).transform_filter(
     alt.datum.sex != 'Both'
 ).transform_filter(
-    brush
-).transform_window(
-    rank='rank(mx)',
-    sort=[alt.SortField('mx', order='descending')]
-).transform_filter(
-    (alt.datum.rank < 10)
-)
+    brush)
 
 chart_2014 = alt.vconcat(us_poverty, us_mort, scatter_state | hists).resolve_scale(
     color='independent'
