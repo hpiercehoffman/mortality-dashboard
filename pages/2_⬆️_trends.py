@@ -51,8 +51,9 @@ subset_state = state_df[state_df.cause_name == display_cause]
 # subset_state = subset_state[subset_state.sex == display_sex]
 # subset_state = subset_state[subset_state.State == display_state]
 
-county_to_id = {v:i for (v,i) in zip(subset_state .location_name, subset_state.id)}
+county_to_id = {v:i for (v,i) in zip(subset_state.location_name, subset_state.id)}
 id_to_county = {v: k for k, v in county_to_id.items()}
+st.write(county_to_id)
 
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
