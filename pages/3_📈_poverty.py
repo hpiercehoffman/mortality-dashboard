@@ -62,7 +62,7 @@ display_state_id = state_to_id[display_state]
 
 subset_df = state_df[state_df.cause_name == display_cause]
 subset_df = subset_df[subset_df.year_id == display_year]
-subset_df = subset_df[subset_df.State == display_state]
+subset_df_state = subset_df[subset_df.State == display_state]
 
 st.title("2014 poverty and mortality rates")
 
@@ -110,7 +110,7 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
     ).add_selection(selection)
 
 
-merged_df = source_mort.merge(source_poverty, how='inner')
+merged_df = subset_df_state.merge(source_poverty, how='inner')
 scatter_state = alt.Chart(merged_df).mark_circle(size=60).encode(
     x='percent:Q',
     y='mx:Q',
