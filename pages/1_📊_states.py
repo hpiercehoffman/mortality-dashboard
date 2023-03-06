@@ -26,6 +26,7 @@ state_df["str_id"] = state_df["id"].astype(str)
 msk = state_df['str_id'].str.len() <= 2
 only_state_df = state_df.loc[msk] 
 state_to_id = {v:i for (v,i) in zip(only_state_df.State, only_state_df.id) }
+id_to_state = {v: k for k, v in state_to_id.items()}
 
 # Sidebar for data filtering widgets
 with st.sidebar:
@@ -61,7 +62,7 @@ with st.sidebar:
         display_state_id = state_to_id[display_state]
 
 # Main chart title
-st.write("Mortality rates by county")
+
 
 # Subset the dataframe to display only selected categories
 subset_df = state_df[state_df.cause_name == display_cause]
@@ -94,28 +95,29 @@ def country_map():
         height=300
     )
     
-if display_state == 'USA':
-    fips = altair_component(altair_chart=country_map()).get("id")
-    if fips:
-        state_fips = int(fips[0]/1000)|0
-        county_fips = fips[0]
-        state_mort =alt.Chart(counties).mark_geoshape().transform_calculate(
-            state_id = "(datum.id / 1000)|0"
-        ).transform_filter(
-            (alt.datum.state_id)==state_fips
-        ).encode(
-            text=alt.condition(alt.datum.id==county_fips, alt.value(str(county_fips)), alt.value(' ')),
-            color=alt.Color('mx:Q', title="Deaths per 100,000"),
-            tooltip=[alt.Tooltip('location_name:N', title='County Name'),
-                 alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
-        ).transform_lookup(
-            lookup='id', 
-            from_=alt.LookupData(data=subset_df , key='id', fields=['mx', 'location_name'])
-        ).project("albersUsa").properties(
-            width=650,
-            height=300
-        )
-        st.altair_chart(state_mort)
+st.write("Select a county to see its state view")
+fips = altair_component(altair_chart=country_map()).get("id")
+if fips:
+    state_fips = int(fips[0]/1000)|0
+    st.write(f"Mortality rates for {id_to_state[state_fips]} ")
+    county_fips = fips[0]
+    state_mort =alt.Chart(counties).mark_geoshape().transform_calculate(
+        state_id = "(datum.id / 1000)|0"
+    ).transform_filter(
+        (alt.datum.state_id)==state_fips
+    ).encode(
+        text=alt.condition(alt.datum.id==county_fips, alt.value(str(county_fips)), alt.value(' ')),
+        color=alt.Color('mx:Q', title="Deaths per 100,000"),
+        tooltip=[alt.Tooltip('location_name:N', title='County Name'),
+             alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
+    ).transform_lookup(
+        lookup='id', 
+        from_=alt.LookupData(data=subset_df , key='id', fields=['mx', 'location_name'])
+    ).project("albersUsa").properties(
+        width=650,
+        height=300
+    )
+    st.altair_chart(state_mort)
     
 #     us_mort = alt.Chart(counties).mark_geoshape(
 #     ).transform_lookup(
