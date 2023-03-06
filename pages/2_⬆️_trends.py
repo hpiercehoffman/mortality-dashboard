@@ -43,6 +43,12 @@ with st.sidebar:
         index=0
     )
 
+state_df["str_id"] = state_df["id"].astype(str)
+msk = state_df['str_id'].str.len() <= 2
+only_state_df = state_df.loc[msk] 
+state_to_id = {v:i for (v,i) in zip(only_state_df.State, only_state_df.id) }
+display_state_id = state_to_id[display_state] 
+    
 subset_diff = diff_df[diff_df.cause_name == display_cause]
 subset_diff = subset_diff[subset_diff.sex == display_sex]
 
@@ -95,13 +101,14 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 
 
 # Map showing the US colored by percent change in mortality
-mort_diff = alt.Chart(counties).mark_geoshape().encode(
-    color=alt.Color("pc_change_val:Q", title="Percent change in mortality")
+mort_diff = alt.Chart(counties).mark_geoshape().transform_calculate(
+    state_id = "(datum.id / 1000)|0"
+).encode(
+    color=alt.Color("pc_change_val:Q", title="Percent change in mortality"),
+    stroke=alt.condition(alt.datum.state_id == display_state_id, alt.value("red"), alt.value("white"))
 ).transform_lookup(
     lookup='id',
-    from_=alt.LookupData(data=subset_diff,
-                         key='id',
-                         fields=['pc_change_val'])
+    from_=alt.LookupData(data=subset_diff,key='id',fields=['pc_change_val'])
 ).project(
     "albersUsa"
 ).properties(
