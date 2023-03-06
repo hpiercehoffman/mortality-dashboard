@@ -56,56 +56,55 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 source_poverty = poverty_df
 source_mort = subset_df
 
-def country_map():
-  selection = alt.selection_single(fields=['id'], empty="none")
+selection = alt.selection_single(fields=['id'], empty="none")
+selection_2 = alt.selection_single(fields=['id'], empty="none", encodings=["color"])
 
-  # Map showing the US colored by poverty rates
-  us_poverty = alt.Chart(counties).mark_geoshape().encode(
-      color=alt.condition(selection, alt.value('red'), "percent:Q"),
-      tooltip=[alt.Tooltip('Name:N', title='County'),
-               alt.Tooltip('percent:Q', title='Percent Poverty')]
+# Map showing the US colored by poverty rates
+us_poverty = alt.Chart(counties).mark_geoshape().encode(
+  color=alt.condition(selection, alt.value('red'), "percent:Q"),
+  tooltip=[alt.Tooltip('Name:N', title='County'),
+           alt.Tooltip('percent:Q', title='Percent Poverty')]
+).transform_lookup(
+  lookup='id',
+  from_=alt.LookupData(data=source_poverty,
+                       key='id',
+                       fields=['percent', 'Name'])
+).project(
+  "albersUsa"
+).properties(
+  title="2014 Poverty Rates",
+  width=650,
+  height=300
+).add_selection(selection).add_selection(selection_2)
+
+# Map showing the US colored by mortality rates
+us_mort = alt.Chart(counties).mark_geoshape().encode(
+  color=alt.condition(selection, alt.value('red'), "mx:Q"),
+  tooltip=[alt.Tooltip('location_name:N', title='County Name'),
+           alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
   ).transform_lookup(
       lookup='id',
-      from_=alt.LookupData(data=source_poverty,
+      from_=alt.LookupData(data=source_mort,
                            key='id',
-                           fields=['percent', 'Name'])
+                           fields=['mx', 'location_name'])
   ).project(
       "albersUsa"
   ).properties(
-      title="2014 Poverty Rates",
+      title="2014 Mortality Rates",
       width=650,
       height=300
-  ).add_selection(selection)
+  ).add_selection(selection).add_selection(selection_2)
 
-  # Map showing the US colored by mortality rates
-  us_mort = alt.Chart(counties).mark_geoshape().encode(
-      color=alt.condition(selection, alt.value('red'), "mx:Q"),
-      tooltip=[alt.Tooltip('location_name:N', title='County Name'),
-               alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
-      ).transform_lookup(
-          lookup='id',
-          from_=alt.LookupData(data=source_mort,
-                               key='id',
-                               fields=['mx', 'location_name'])
-      ).project(
-          "albersUsa"
-      ).properties(
-          title="2014 Mortality Rates",
-          width=650,
-          height=300
-      ).add_selection(selection)
-  
-  return us_poverty + us_mort
+scatter = alt.Chart(source_mort).mark_circle(size=60).encode(
+    x='mx',
+    y='mx',
+    color='fips'
+).transform_filter(
+    selection_2
+)
 
-st.write("Select a county to see its state view")
-fips = altair_component(altair_chart=country_map()).get("id")
-if fips:
-    state_fips = int(fips[0]/1000)|0
-    st.write(f"Mortality rates for {id_to_state[state_fips]} ")
-
-
-
-
+chart_2014 = alt.vconcat(us_poverty, us_mort, scatter).resolve_scale(
+    color='independent'
 
 
 
