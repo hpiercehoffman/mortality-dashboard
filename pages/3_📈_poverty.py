@@ -96,15 +96,7 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
         height=300
     ).add_selection(selection)
 
-scatter_plot = alt.Chart(source_mort).mark_circle(size=60).encode(
-    x='mx:Q',
-    y='mx:Q',
-    color='fips:Q'
-).transform_filter(
-    selection
-)
-
-chart_2014 = alt.vconcat(us_poverty, us_mort, scatter_plot).resolve_scale(
+chart_2014 = alt.vconcat(us_poverty, us_mort).resolve_scale(
     color='independent'
 )
 
