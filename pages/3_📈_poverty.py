@@ -43,7 +43,7 @@ with st.sidebar:
 #         options=("Male", "Female", "Both"),
 #         index=0
 #     )
-
+    display_sex = "Both"
     # Year is restricted to 2014
     display_year = 2014
     
@@ -63,6 +63,7 @@ display_state_id = state_to_id[display_state]
 subset_df = state_df[state_df.cause_name == display_cause]
 subset_df = subset_df[subset_df.year_id == display_year]
 subset_df_state = subset_df[subset_df.State == display_state]
+subset_df = subset_df[subset_df.sex == display_sex]
 
 st.title("2014 poverty and mortality rates")
 
