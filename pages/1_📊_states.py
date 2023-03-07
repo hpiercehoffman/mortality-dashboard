@@ -70,7 +70,6 @@ def country_map():
         from_=alt.LookupData(data=subset_df, key='id', fields=['mx', 'location_name'])
     ).encode(
         color=alt.condition(selection, alt.value('red'), "mx:Q"),
-        legend=alt.Legend(title='Deaths per 100,000'),
         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
                  alt.Tooltip('mx:Q', title='Mortality', format='.2f')]
     ).project(
