@@ -130,7 +130,7 @@ hists = alt.Chart(merged_df).mark_bar(opacity=0.5, thickness=100).encode(
     brush
 )
 
-scatter_state =  scatter_state +  scatter_state.transform_regression('percent', 'mx').mark_line()
+#scatter_state =  scatter_state +  scatter_state.transform_regression('percent', 'mx').mark_line()
 
 chart_2014 = alt.vconcat(us_poverty, us_mort, scatter_state | hists).resolve_scale(
     color='independent'
