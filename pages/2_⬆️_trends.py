@@ -61,8 +61,6 @@ subset_state = subset_state[subset_state.State == display_state]
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
 
-st.write(subset_diff.head())
-
 # Map showing the US colored by percent change in mortality
 mort_diff = alt.Chart(counties).mark_geoshape().transform_calculate(
     state_id = "(datum.id / 1000)|0"
