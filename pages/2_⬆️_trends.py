@@ -81,8 +81,8 @@ mort_diff = alt.Chart(counties).mark_geoshape().transform_calculate(
 state_trends = alt.Chart(subset_state).mark_line(point=True).transform_filter(
     (alt.datum.sex == 'Male') | (alt.datum.sex == 'Female')
 ).encode(
-    x='year_id:O',
-    y='sum(mx):Q',
+    x=alt.X('year_id:O', title='Year'),
+    y=alt.Y('sum(mx):Q', title='Deaths per 100,000'),
     color='sex:N'
 ).properties(
     width=650,
