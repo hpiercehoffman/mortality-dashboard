@@ -87,7 +87,7 @@ if fips:
     state_fips = int(fips[0]/1000)|0
     st.write(f"Mortality rates for {id_to_state[state_fips]} ")
     county_fips = fips[0]
-    state_mort =alt.Chart(counties).mark_geoshape().transform_calculate(
+    state_mort=alt.Chart(counties).mark_geoshape().transform_calculate(
         state_id = "(datum.id / 1000)|0"
     ).transform_filter(
         (alt.datum.state_id)==state_fips
@@ -102,5 +102,16 @@ if fips:
         width=650,
         height=300
     )
+    
+    hist = alt.Chart(subset_df).mark_bar().encode(
+        alt.X("mx:Q", bin=True),
+        y='count()'
+    ).transform_calculate(
+        state_id = "(datum.id / 1000)|0"
+    ).transform_filter(
+        (alt.datum.state_id)==state_fips
+    )
+    
+    state_mort = alt.hconcat(state_mort, hist)
     st.altair_chart(state_mort)
     
