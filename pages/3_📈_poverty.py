@@ -121,6 +121,8 @@ scatter_state = alt.Chart(merged_df).mark_circle(size=60).encode(
     alt.datum.sex == 'Both'
 ).add_selection(brush)
 
+scatter_state =  scatter_state +  scatter_state.transform_regression('x', 'y').mark_line()
+
 hists = alt.Chart(merged_df).mark_bar(opacity=0.5, thickness=100).encode(
     x='sex:N',
     y='sum(mx):Q'
