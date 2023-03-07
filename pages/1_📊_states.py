@@ -71,7 +71,7 @@ def country_map():
     ).encode(
         color=alt.condition(selection, alt.value('red'), "mx:Q"),
         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
-                 alt.Tooltip('mx:Q', title='Mortality', format='.2f')]
+                 alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
     ).project(
         "albersUsa"
     ).add_selection(selection
@@ -92,9 +92,9 @@ if fips:
     ).transform_filter(
         (alt.datum.state_id)==state_fips
     ).encode(
-        color=alt.Color('mx:Q', title="Mortality"),
+        color=alt.Color('mx:Q', title="Deaths per 100,000"),
         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
-             alt.Tooltip('mx:Q', title='Mortality', format='.2f')]
+             alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
     ).transform_lookup(
         lookup='id', 
         from_=alt.LookupData(data=subset_df , key='id', fields=['mx', 'location_name'])
