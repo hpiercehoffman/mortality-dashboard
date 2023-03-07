@@ -111,7 +111,7 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
 merged_df = subset_df_state.merge(source_poverty, how='inner')
 
 # Selector so we can click on county points in the scatter plot
-brush = alt.selection_single(fields=["id"])
+brush = alt.selection_single(fields=["id"], init={'id':merged_df.id[0]})
 
 # Scatter plot of the selected state
 scatter_state = alt.Chart(merged_df).mark_circle(size=60).encode(
@@ -137,7 +137,7 @@ hists = alt.Chart(merged_df).mark_bar(opacity=0.5, thickness=100).encode(
     title='Mortality rates by sex'
 )
 
-chart_2014 = alt.vconcat(us_poverty, us_mort, scatter_state | hists).resolve_scale(
+chart_2014 = alt.vconcat(us_poverty, us_mort, alt.hconcat(scatter_state, hists, spacing=50)).resolve_scale(
     color='independent'
 )
 
