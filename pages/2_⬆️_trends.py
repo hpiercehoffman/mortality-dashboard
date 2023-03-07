@@ -9,12 +9,14 @@ import process_data
 st.set_page_config(page_title="Explore Trends", page_icon="⬆️")
 
 @st.cache_data
+# Collect data on the percent difference in mortality across years
 def collect_diff_data():
     diff_df = process_data.read_diff_csv()
     diff_df["id"] = diff_df["FIPS"].astype(int)
     return diff_df
 
 @st.cache_data
+# Collect the main dataframe with yearly mortality rates
 def collect_state_data():
     state_df = process_data.read_states()
     state_df = state_df.dropna(subset=['FIPS'])
@@ -56,49 +58,8 @@ subset_state = state_df[state_df.cause_name == display_cause]
 # subset_state = subset_state[subset_state.sex == display_sex]
 subset_state = subset_state[subset_state.State == display_state]
 
-# county_to_id = {v:i for (v,i) in zip(subset_state.location_name, subset_state.id)}
-# id_to_county = {v: k for k, v in county_to_id.items()}
-
 # Map of the U.S. by counties
 counties = alt.topo_feature(data.us_10m.url, 'counties')
-
-# def ret_fips():
-#     from streamlit_vega_lite import altair_component
-#     def country_map_diff():
-#         selection = alt.selection_single(fields=['id'], empty="none")
-#         return (alt.Chart(counties).mark_geoshape().transform_lookup(
-#             lookup='id',
-#             from_=alt.LookupData(data=subset_diff, key='id', fields=['pc_change_val', 'location_name'])
-#         ).encode(
-#             color='pc_change_val:Q',
-#             tooltip=[alt.Tooltip('location_name:N', title='County Name'),
-#                      alt.Tooltip('pc_change_val:Q', title='Percentage change', format='.2f')]
-#         ).project(
-#             "albersUsa"
-#         ).add_selection(selection
-#         ).properties(
-#             width=600,
-#             height=300
-#         ))
-#     return altair_component(altair_chart=country_map_diff()).get("id")
-
-# st.write("Select a county to see its trends")
-
-# fips_c = ret_fips()
-# print(fips_c)
-# if fips_c:
-#     county_fips = fips_c[0]
-#     st.write(f"Mortality trends across sexes for {id_to_county[county_fips]}")
-#     state_trends = alt.Chart(source_states).mark_line(point=True).encode(
-#         x='year_id:O',
-#         y='mx:Q',
-#         color='sex:N'
-#     ).properties(
-#         width=800,
-#         height=600
-#     )
-#     st.altair_chart(state_trends)
-
 
 # Map showing the US colored by percent change in mortality
 mort_diff = alt.Chart(counties).mark_geoshape().transform_calculate(
@@ -111,13 +72,12 @@ mort_diff = alt.Chart(counties).mark_geoshape().transform_calculate(
 ).project(
     "albersUsa"
 ).properties(
-    title="Percent Change in Mortality",
+    title="Percent Change in Mortality 1980-2014",
     width=650,
     height=300
 )
 
 # Line plot showing mortality trends for the selected state
-st.write(f'Trends across sex for {display_state}')
 state_trends = alt.Chart(subset_state).mark_line(point=True).transform_filter(
     (alt.datum.sex == 'Male') | (alt.datum.sex == 'Female')
 ).encode(
@@ -126,7 +86,8 @@ state_trends = alt.Chart(subset_state).mark_line(point=True).transform_filter(
     color='sex:N'
 ).properties(
     width=650,
-    height=300
+    height=300,
+    title=(f'Trends across sex for {display_state}')
 )
 
 chart_trend = alt.vconcat(mort_diff, state_trends)

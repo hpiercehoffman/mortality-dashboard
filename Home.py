@@ -13,7 +13,7 @@ st.markdown(
     ### Varun Ullanat and Hannah Pierce-Hoffman ###
 
     ### Dive into the data ###
-    - Explore mortality causes by state in the [States](https://hpiercehoffman-bmi706-outliers-home-r82fgx.streamlit.app/states) tab
+    - Explore mortality causes by state in the **States** tab
     - Visualize data trends in the **Trends** tab
     - Compare poverty and mortality data in the **Poverty** tab
 
