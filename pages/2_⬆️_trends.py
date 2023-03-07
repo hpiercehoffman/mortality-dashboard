@@ -41,7 +41,7 @@ with st.sidebar:
     # Selectbox widget for state to show in line plot
     display_state = st.selectbox(
         label="Select a state",
-        options=state_df["State"].unique(),
+        options=state_df.sort_values(by="State").State.unique(),
         index=0
     )
 

@@ -81,6 +81,7 @@ def country_map():
     ))
     
 st.write("Select a county to see its state view")
+# Altair component creation so we can do event monitoring for mouse clicks
 fips = altair_component(altair_chart=country_map()).get("id")
 if fips:
     state_fips = int(fips[0]/1000)|0
@@ -103,63 +104,3 @@ if fips:
     )
     st.altair_chart(state_mort)
     
-#     us_mort = alt.Chart(counties).mark_geoshape(
-#     ).transform_lookup(
-#         lookup='id',
-#         from_=alt.LookupData(data=subset_df, key='id', fields=['mx', 'location_name'])
-#     ).encode(
-#         color=alt.Color('mx:Q', title="Deaths per 100,000"),
-#         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
-#                  alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
-#     ).project(
-#         "albersUsa"
-#     ).properties(
-#         width=800,
-#         height=400
-#     )
-    #chart_mort = country_map()
-
-
-    
-# Subset the dataframe to entries belonging to the selected state
-# if display_state != 'USA':
-#     subset_df_state = subset_df[subset_df.State == display_state]
-#     us_scale = alt.Scale(domain=[subset_df_state['mx'].min(), subset_df_state['mx'].max()])
-    
-#     us_mort = alt.Chart(counties).mark_geoshape(
-#     ).transform_lookup(
-#         lookup='id',
-#         from_=alt.LookupData(data=subset_df, key='id', fields=['mx', 'location_name'])
-#     ).transform_calculate(
-#         state_id = "(datum.id / 1000)|0"
-#     ).encode(
-#         color=alt.condition((alt.datum.state_id)==display_state_id, 'mx:Q', alt.value("#808080"), title="Deaths per 100,000", scale=us_scale),
-#         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
-#                  alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
-#     ).project(
-#         "albersUsa"
-#     ).properties(
-#         width=500,
-#         height=300
-#     )
-    
-#     state_mort =alt.Chart(counties).mark_geoshape().transform_calculate(
-#             state_id = "(datum.id / 1000)|0"
-#         ).transform_filter(
-#             (alt.datum.state_id)==display_state_id
-#         ).encode(
-#             color=alt.Color('mx:Q', title="Deaths per 100,000", scale=us_scale),
-#             tooltip=[alt.Tooltip('location_name:N', title='County Name'),
-#                      alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
-#         ).transform_lookup(
-#             lookup='id', 
-#             from_=alt.LookupData(data=subset_df_state , key='id', fields=['mx', 'location_name'])
-#         ).project("albersUsa").properties(
-#             width=600,
-#             height=300
-#         )
-#     chart_mort = alt.vconcat(us_mort, state_mort).resolve_scale(
-#         color = 'independent')
-
-# st.altair_chart(chart_mort,
-#     use_container_width=False)
