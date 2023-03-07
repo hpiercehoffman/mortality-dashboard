@@ -103,15 +103,5 @@ if fips:
         height=300
     )
     
-    hist = alt.Chart(subset_df).mark_bar().encode(
-        alt.X("mx:Q", bin=True),
-        y='count()'
-    ).transform_calculate(
-        state_id = "(datum.id / 1000)|0"
-    ).transform_filter(
-        (alt.datum.state_id)==state_fips
-    )
-    
-    state_mort = alt.hconcat(state_mort, hist)
     st.altair_chart(state_mort)
     
