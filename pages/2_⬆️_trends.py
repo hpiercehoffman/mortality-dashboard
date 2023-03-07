@@ -65,7 +65,9 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 mort_diff = alt.Chart(counties).mark_geoshape().transform_calculate(
     state_id = "(datum.id / 1000)|0"
 ).encode(
-    color=alt.condition(alt.datum.state_id == display_state_id, alt.value('red'), "pc_change_val:Q")
+    color=alt.condition(alt.datum.state_id == display_state_id, alt.value('red'), "pc_change_val:Q"),
+    tooltip=[alt.Tooltip('location_name:N', title='County Name'),
+                 alt.Tooltip('pc_change_val:Q', title='Percent change in mortality (1980-2014)', format='.2f')]
 ).transform_lookup(
     lookup='id',
     from_=alt.LookupData(data=subset_diff,key='id',fields=['pc_change_val'])
