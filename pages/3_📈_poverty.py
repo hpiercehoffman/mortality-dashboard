@@ -115,7 +115,7 @@ brush = alt.selection_single(fields=["id"])
 
 # Scatter plot of the selected state
 scatter_state = alt.Chart(merged_df).mark_circle(size=60).encode(
-    x=alt.X('percent:Q', title='Percent Poverty')
+    x=alt.X('percent:Q', title='Percent Poverty'),
     y=alt.Y('mx:Q', title='Mortality per 100,000'),
     color=alt.condition(brush, alt.value("red"), alt.value("gray"))
 ).transform_filter(
