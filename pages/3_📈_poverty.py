@@ -10,6 +10,7 @@ st.set_page_config(page_title="2014 Poverty Rates", page_icon="📈")
 
 @st.cache_data
 
+# Collect poverty data and combine the FIPS codes to match mortality dataset
 def collect_poverty_data():
     poverty_df = process_data.read_poverty_csv()
     poverty_df = poverty_df.rename({'Poverty Percent, All Ages': 'percent'},
@@ -19,6 +20,7 @@ def collect_poverty_data():
     poverty_df["id"] = poverty_df["id"].astype(int)
     return poverty_df
 
+# Collect the main state mortality dataset
 def collect_state_data():
     state_df = process_data.read_states()
     state_df = state_df.dropna(subset=['FIPS'])
@@ -37,12 +39,6 @@ with st.sidebar:
         index=0
     )
 
-    # Radio buttons to select sex
-#     display_sex = st.radio(
-#         label="Select a sex to display",
-#         options=("Male", "Female", "Both"),
-#         index=0
-#     )
     display_sex = "Both"
     # Year is restricted to 2014
     display_year = 2014
@@ -50,7 +46,7 @@ with st.sidebar:
     # Selectbox widget for state to show in line plot
     display_state = st.selectbox(
         label="Select a state",
-        options=state_df["State"].unique(),
+        options=state_df.sort_values(by="State").State.unique(),
         index=0
     )
 
@@ -72,6 +68,7 @@ counties = alt.topo_feature(data.us_10m.url, 'counties')
 source_poverty = poverty_df
 source_mort = subset_df
 
+# County selector to make a clicked county turn red
 selection = alt.selection_single(fields=['id'], empty="none")
 
 # Map showing the US colored by poverty rates
@@ -110,17 +107,23 @@ us_mort = alt.Chart(counties).mark_geoshape().encode(
         height=300
     ).add_selection(selection)
 
-#subset_df_state = subset_df_state[subset_df_state.sex == 'Both']
+# Merge the dataframes so we can compare poverty and mortality
 merged_df = subset_df_state.merge(source_poverty, how='inner')
+
+# Selector so we can click on county points in the scatter plot
 brush = alt.selection_single(fields=["id"])
 
+# Scatter plot of the selected state
 scatter_state = alt.Chart(merged_df).mark_circle(size=60).encode(
     x='percent:Q',
     y='mx:Q',
 ).transform_filter(
     alt.datum.sex == 'Both'
+).properties(
+    title=''
 ).add_selection(brush)
 
+# Show mortality breakdown by sex for the selected county
 hists = alt.Chart(merged_df).mark_bar(opacity=0.5, thickness=100).encode(
     x='sex:N',
     y='sum(mx):Q'
@@ -128,9 +131,9 @@ hists = alt.Chart(merged_df).mark_bar(opacity=0.5, thickness=100).encode(
     alt.datum.sex != 'Both'
 ).transform_filter(
     brush
+).properties(
+    title='Name:N'
 )
-
-#scatter_state =  scatter_state +  scatter_state.transform_regression('percent', 'mx').mark_line()
 
 chart_2014 = alt.vconcat(us_poverty, us_mort, scatter_state | hists).resolve_scale(
     color='independent'
