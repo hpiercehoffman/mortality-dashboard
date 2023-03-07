@@ -140,7 +140,7 @@ hists = alt.Chart(merged_df).mark_bar(opacity=0.5, thickness=100).encode(
     title='Mortality rates by sex'
 )
 
-chart_2014 = alt.vconcat(us_poverty, us_mort, alt.hconcat(scatter_state, hists, spacing=100), spacing=100).resolve_scale(
+chart_2014 = alt.vconcat(us_poverty, us_mort, alt.hconcat(scatter_state, hists, spacing=100), spacing=60).resolve_scale(
     color='independent'
 )
 
