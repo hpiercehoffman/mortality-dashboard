@@ -50,8 +50,7 @@ with st.sidebar:
         value=1990
     )
 
-# Main chart title
-
+st.title("State and county level mortality rates")
 
 # Subset the dataframe to display only selected categories
 subset_df = state_df[state_df.cause_name == display_cause]
