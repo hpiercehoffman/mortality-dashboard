@@ -115,24 +115,26 @@ brush = alt.selection_single(fields=["id"])
 
 # Scatter plot of the selected state
 scatter_state = alt.Chart(merged_df).mark_circle(size=60).encode(
-    x='percent:Q',
-    y='mx:Q',
+    x=alt.X('percent:Q', title='Percent Poverty')
+    y=alt.Y('mx:Q', title='Mortality per 100,000'),
+    color=alt.condition(brush, alt.value("red"), alt.value("gray"))
 ).transform_filter(
     alt.datum.sex == 'Both'
 ).properties(
-    title=''
+    title={'text':'Compare poverty and mortality rates',
+           'subtitle':'Click a county to show details'}
 ).add_selection(brush)
 
 # Show mortality breakdown by sex for the selected county
 hists = alt.Chart(merged_df).mark_bar(opacity=0.5, thickness=100).encode(
-    x='sex:N',
-    y='sum(mx):Q'
+    x=alt.X('sex:N', title='Sex'),
+    y=alt.Y('sum(mx):Q', title='Mortality per 100,000')
 ).transform_filter(
     alt.datum.sex != 'Both'
 ).transform_filter(
     brush
 ).properties(
-    title=alt.datum.location_name[0]
+    title='Mortality rates by sex'
 )
 
 chart_2014 = alt.vconcat(us_poverty, us_mort, scatter_state | hists).resolve_scale(
