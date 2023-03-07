@@ -117,11 +117,14 @@ brush = alt.selection_single(fields=["id"], init={'id':merged_df.id[0]})
 scatter_state = alt.Chart(merged_df).mark_circle(size=60).encode(
     x=alt.X('percent:Q', title='Percent Poverty'),
     y=alt.Y('mx:Q', title='Mortality per 100,000'),
-    color=alt.condition(brush, alt.value("red"), alt.value("gray"))
+    color=alt.condition(brush, alt.value("red"), alt.value("gray")),
+    tooltip=[alt.Tooltip('location_name:N', title='County Name'),
+             alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f'),
+             alt.Tooltip('percent:Q', title='Percent Poverty', format='.2f')]
 ).transform_filter(
     alt.datum.sex == 'Both'
 ).properties(
-    title={'text':'Compare poverty and mortality rates',
+    title={'text':f'Compare poverty and mortality rates for {display_state}',
            'subtitle':'Click a county to show details'}
 ).add_selection(brush)
 
