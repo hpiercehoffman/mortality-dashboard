@@ -93,7 +93,7 @@ if fips:
         (alt.datum.state_id)==state_fips
     ).encode(
         color=alt.Color('mx:Q', title="Deaths per 100,000"),
-        stroke=alt.condition(alt.datum.id==fips, alt.value('red'), alt.value('white')),
+        stroke=alt.condition(alt.datum.id==fips[0], alt.value('red'), alt.value('white')),
         tooltip=[alt.Tooltip('location_name:N', title='County Name'),
              alt.Tooltip('mx:Q', title='Deaths per 100,000', format='.2f')]
     ).transform_lookup(
