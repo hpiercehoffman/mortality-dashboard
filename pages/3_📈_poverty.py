@@ -121,8 +121,6 @@ scatter_state = alt.Chart(merged_df).mark_circle(size=60).encode(
     alt.datum.sex == 'Both'
 ).add_selection(brush)
 
-scatter_state =  scatter_state +  scatter_state.transform_regression('percent', 'mx').mark_line()
-
 hists = alt.Chart(merged_df).mark_bar(opacity=0.5, thickness=100).encode(
     x='sex:N',
     y='sum(mx):Q'
@@ -131,6 +129,8 @@ hists = alt.Chart(merged_df).mark_bar(opacity=0.5, thickness=100).encode(
 ).transform_filter(
     brush
 )
+
+scatter_state =  scatter_state +  scatter_state.transform_regression('percent', 'mx').mark_line()
 
 chart_2014 = alt.vconcat(us_poverty, us_mort, scatter_state | hists).resolve_scale(
     color='independent'
