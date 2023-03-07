@@ -132,7 +132,7 @@ hists = alt.Chart(merged_df).mark_bar(opacity=0.5, thickness=100).encode(
 ).transform_filter(
     brush
 ).properties(
-    title='Name:N'
+    title=alt.datum.location_name[0]
 )
 
 chart_2014 = alt.vconcat(us_poverty, us_mort, scatter_state | hists).resolve_scale(
