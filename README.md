@@ -4,7 +4,7 @@ Team members:
 * Varun Ullanat
 * Hannah Pierce-Hoffman
 
-**See our app below:** 
+**See our app here:** 
 https://hpiercehoffman-bmi706-outliers-home-r82fgx.streamlit.app/
 
 # Sources
