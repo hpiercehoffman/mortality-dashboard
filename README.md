@@ -25,5 +25,5 @@ https://hpiercehoffman-bmi706-outliers-home-r82fgx.streamlit.app/
 ## Altair features ##
 * Renaming tooltips: https://stackoverflow.com/questions/52223358/rename-tooltip-in-altair
 * Formatting values in tooltips: https://stackoverflow.com/questions/66614926/is-there-a-way-to-format-tooltip-values-in-altair-boxplot
-* "Streamlit Vega-Lite." https://github.com/domoritz/streamlit-vega-lite
+* Streamlit Vega-Lite: https://github.com/domoritz/streamlit-vega-lite
 
