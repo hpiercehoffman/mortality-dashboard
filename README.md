@@ -21,6 +21,8 @@ https://hpiercehoffman-bmi706-outliers-home-r82fgx.streamlit.app/
 
 ## Altair documentation ##
 * Altair chloropleth map: https://altair-viz.github.io/gallery/choropleth.html
+* Altair scatter plot: https://altair-viz.github.io/gallery/scatter_tooltips.html
+* Altair interactive charts: https://altair-viz.github.io/user_guide/interactions.html
 
 ## Altair features ##
 * Renaming tooltips: https://stackoverflow.com/questions/52223358/rename-tooltip-in-altair
