@@ -5,7 +5,7 @@ Team members:
 * Hannah Pierce-Hoffman
 
 **See our app here:** 
-https://hpiercehoffman-bmi706-outliers-home-r82fgx.streamlit.app/
+https://hpiercehoffman-bmi706-outliers-home-r82fgx.streamlit.app/ or https://varunullanat-bmi706-outliers-home-2qj0nn.streamlit.app
 
 # Sources
 
